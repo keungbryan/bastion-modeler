@@ -9,7 +9,9 @@
 #define COLOR_GRAY 105.0f / 255.0f, 105.0f / 255.0f, 105.0f / 255.0f
 #define COLOR_CYAN 0.0f, 1.0f, 1.0f
 #define COLOR_ORANGE 1.0f ,140.0f / 255.0f , 0.0f
-#define COLOR_OLIVE 107.0f / 255.0f, 142.0f / 255.0f , 35.0f / 255.0f
+#define COLOR_OLIVE 61.0f / 255.0f, 240.0f / 255.0f , 159.0f / 255.0f
+
+#define NUM_OF_BTMUZZLE 8
 
 // To make a SampleModel, we inherit off of ModelerView
 class BastionModel : public ModelerView
@@ -38,25 +40,29 @@ void BastionModel::draw()
 	ModelerView::draw();
 
 	// draw the floor
-	setAmbientColor(.1f, .1f, .1f);
+/*	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_RED);
 	glPushMatrix();
 	glTranslated(-5, 0, -5);
 	drawBox(10, 0.01f, 10);
 	glPopMatrix();
-
+*/
 	// draw the bastion model
 	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_GRAY);
 	glPushMatrix();
 	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
+		// translate whole body first
+		glTranslated(0, 2, 0.5);
+
 		// draw upper body
 		// draw waist
 		glPushMatrix();
-		glTranslated(0, 2, 0.5);
 		glRotated(VAL(ROTATE), 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0, 0); // x' = x, y' = -z, z' = y
+		drawCylinder(0.2, 0.85, 0.85);
+		glTranslated(0, 0, 0.2);
 		drawCylinder(1, 0.5, 0.5);
 
 		// return to origin, reset axis
@@ -108,6 +114,7 @@ void BastionModel::draw()
 		drawTriangle(1, 4, -0.5, -1, 3, -0.5, -1, 4, -0.5);
 		drawTriangle(1, 4, -0.5, 1, 3, -0.5, -1, 3, -0.5);
 
+
 			// draw neck
 			glPushMatrix();
 			setAmbientColor(.1f, .1f, .1f);
@@ -121,6 +128,9 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_BEIGE);
 			glScaled(0.85 / 0.75, 2, 2);
 			glTranslated(-0.05, 0.5, -0.25);
+			glTranslated(0.5, 0, 0.5);
+			glRotated(VAL(HEAD_ROTATE), 0.0, 1.0, 0.0);
+			glTranslated(-0.5, 0, -0.5);
 			drawBox(1, 1, 1);
 
 			// draw eye
@@ -131,8 +141,11 @@ void BastionModel::draw()
 			drawBox(1, 1, 1);
 			glPopMatrix();
 
+
+
 			// draw back turret
 			glPushMatrix();
+
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_BEIGE);
 			glTranslated(0, 3, -1.25);
@@ -143,6 +156,20 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_GRAY);
 			glTranslated(0, 0, 0.75);
 			drawCylinder(2.5, 0.6, 0.6);
+
+			// draw back turret muzzle
+			glTranslated(0, 0, 2.5);
+			drawCylinder(0.2, 0.7, 0.7);
+
+			glTranslated(0, 0, 0.2);
+			for (int i = 0; i < NUM_OF_BTMUZZLE; i++)
+			{
+				glTranslated(0, 0.45, 0);
+				drawCylinder(0.2, 0.15, 0.15);
+				glTranslated(0, -0.45, 0);
+				glRotated(360 / NUM_OF_BTMUZZLE, 0.0, 0.0, 1.0);
+			}
+
 			glPopMatrix();
 
 			// draw left limb
@@ -176,10 +203,23 @@ void BastionModel::draw()
 
 		glPopMatrix();
 
+		
 		// draw lower body
+		glPushMatrix();
 		// draw pelvis
+		setAmbientColor(.1f, .1f, .1f);
+		setDiffuseColor(COLOR_OLIVE);
+		glTranslated(-0.45, -0.7, -0.45);
+		glScaled(0.9, 0.7, 0.9);
+		drawBox(1, 1, 1);
+
 			//draw left leg
 			//draw right leg
+
+
+		glPopMatrix();
+		//finish drawing lower body
+
 
 	glPopMatrix();
 }
@@ -193,8 +233,8 @@ int main()
 	controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
 	controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
 	controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
-	controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
 	controls[ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
+	controls[HEAD_ROTATE] = ModelerControl("Head Rotate", -90, 90, 1, 0);
 
 	ModelerApplication::Instance()->Init(&createBastionModel, controls, NUMCONTROLS);
 	return ModelerApplication::Instance()->Run();
