@@ -9,7 +9,7 @@
 #define COLOR_GRAY 105.0f / 255.0f, 105.0f / 255.0f, 105.0f / 255.0f
 #define COLOR_CYAN 0.0f, 1.0f, 1.0f
 #define COLOR_ORANGE 1.0f ,140.0f / 255.0f , 0.0f
-#define COLOR_OLIVE 107.0f / 255.0f, 142.0f / 255.0f , 35.0f / 255.0f
+#define COLOR_OLIVE 61.0f / 255.0f, 240.0f / 255.0f , 159.0f / 255.0f
 
 #define NUM_OF_BTMUZZLE 8
 
@@ -40,25 +40,29 @@ void BastionModel::draw()
 	ModelerView::draw();
 
 	// draw the floor
-	setAmbientColor(.1f, .1f, .1f);
+/*	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_RED);
 	glPushMatrix();
 	glTranslated(-5, 0, -5);
 	drawBox(10, 0.01f, 10);
 	glPopMatrix();
-
+*/
 	// draw the bastion model
 	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_GRAY);
 	glPushMatrix();
 	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
+		// translate whole body first
+		glTranslated(0, 2, 0.5);
+
 		// draw upper body
 		// draw waist
 		glPushMatrix();
-		glTranslated(0, 2, 0.5);
 		glRotated(VAL(ROTATE), 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0, 0); // x' = x, y' = -z, z' = y
+		drawCylinder(0.2, 0.85, 0.85);
+		glTranslated(0, 0, 0.2);
 		drawCylinder(1, 0.5, 0.5);
 
 		// return to origin, reset axis
@@ -199,10 +203,23 @@ void BastionModel::draw()
 
 		glPopMatrix();
 
+		
 		// draw lower body
+		glPushMatrix();
 		// draw pelvis
+		setAmbientColor(.1f, .1f, .1f);
+		setDiffuseColor(COLOR_OLIVE);
+		glTranslated(-0.45, -0.7, -0.45);
+		glScaled(0.9, 0.7, 0.9);
+		drawBox(1, 1, 1);
+
 			//draw left leg
 			//draw right leg
+
+
+		glPopMatrix();
+		//finish drawing lower body
+
 
 	glPopMatrix();
 }
