@@ -59,7 +59,7 @@ void BastionModel::draw()
 		// draw upper body
 		// draw waist
 		glPushMatrix();
-		glRotated(VAL(ROTATE), 0.0, 1.0, 0.0);
+		glRotated(VAL(UPPER_BODY_ROTATE), 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0, 0); // x' = x, y' = -z, z' = y
 		drawCylinder(0.2, 0.85, 0.85);
 		glTranslated(0, 0, 0.2);
@@ -179,7 +179,20 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_ORANGE);
 			glTranslated(1, 3.25, -0.375);
 			glScaled(1, 0.5, 0.75);
+
+			glTranslated(0, 0.5, 0);
+			glRotated(VAL(LEFT_ARM_Z_ROTATE), 0.0, 0.0, 1.0);
+			glTranslated(0, -0.5, 0);
+
+			glTranslated(0, 0, 0.5);
+			glRotated(VAL(LEFT_ARM_Y_ROTATE), 0.0, 1.0, 0.0);
+			glTranslated(0, 0, -0.5);
+
+			glTranslated(0, 0.5, 0.5);
+			glRotated(-VAL(LEFT_ARM_X_ROTATE), 1.0, 0.0, 0.0);
+			glTranslated(0, -0.5, -0.5);
 			drawBox(1, 1, 1);
+
 			// draw shoulder plates
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_BEIGE);
@@ -233,8 +246,11 @@ int main()
 	controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
 	controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
 	controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
-	controls[ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
+	controls[UPPER_BODY_ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
 	controls[HEAD_ROTATE] = ModelerControl("Head Rotate", -90, 90, 1, 0);
+	controls[LEFT_ARM_X_ROTATE] = ModelerControl("Left Arm X Rotate", 0, 359, 1, 0);
+	controls[LEFT_ARM_Y_ROTATE] = ModelerControl("Left Arm Y Rotate", -30, 30, 1, 0);
+	controls[LEFT_ARM_Z_ROTATE] = ModelerControl("Left Arm Z Rotate", 0, 30, 1, 10);
 
 	ModelerApplication::Instance()->Init(&createBastionModel, controls, NUMCONTROLS);
 	return ModelerApplication::Instance()->Run();
