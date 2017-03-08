@@ -11,6 +11,8 @@
 #define COLOR_ORANGE 1.0f ,140.0f / 255.0f , 0.0f
 #define COLOR_OLIVE 107.0f / 255.0f, 142.0f / 255.0f , 35.0f / 255.0f
 
+#define NUM_OF_BTMUZZLE 8
+
 // To make a SampleModel, we inherit off of ModelerView
 class BastionModel : public ModelerView
 {
@@ -139,6 +141,7 @@ void BastionModel::draw()
 
 			// draw back turret
 			glPushMatrix();
+
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_BEIGE);
 			glTranslated(0, 3, -1.25);
@@ -149,6 +152,20 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_GRAY);
 			glTranslated(0, 0, 0.75);
 			drawCylinder(2.5, 0.6, 0.6);
+
+			// draw back turret muzzle
+			glTranslated(0, 0, 2.5);
+			drawCylinder(0.2, 0.7, 0.7);
+
+			glTranslated(0, 0, 0.2);
+			for (int i = 0; i < NUM_OF_BTMUZZLE; i++)
+			{
+				glTranslated(0, 0.45, 0);
+				drawCylinder(0.2, 0.15, 0.15);
+				glTranslated(0, -0.45, 0);
+				glRotated(360 / NUM_OF_BTMUZZLE, 0.0, 0.0, 1.0);
+			}
+
 			glPopMatrix();
 
 			// draw left limb
