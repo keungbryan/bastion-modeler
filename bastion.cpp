@@ -178,8 +178,7 @@ void BastionModel::draw()
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_ORANGE);
 			glTranslated(1, 3.25, -0.375);
-			glScaled(1, 0.5, 0.75);
-
+			
 			glTranslated(0, 0.5, 0);
 			glRotated(VAL(LEFT_ARM_Z_ROTATE), 0.0, 0.0, 1.0);
 			glTranslated(0, -0.5, 0);
@@ -191,6 +190,8 @@ void BastionModel::draw()
 			glTranslated(0, 0.5, 0.5);
 			glRotated(-VAL(LEFT_ARM_X_ROTATE), 1.0, 0.0, 0.0);
 			glTranslated(0, -0.5, -0.5);
+
+			glScaled(1, 0.5, 0.75);
 			drawBox(1, 1, 1);
 
 			// draw shoulder plates
