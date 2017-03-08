@@ -203,10 +203,33 @@ void BastionModel::draw()
 			glScaled(0.25, -4, 1);
 			drawBox(1, 1, 1);
 
-				// draw left upper arm
-					// draw left lower arm
-						// draw hand
+			// reset transformation to start of shoulder
+			glScaled(4, -0.25, 1);
+			glTranslated(-0.75, 0, 0);
+			glScaled(1, 2, 1);
+			glTranslated(-0.5, -1.25, 0);
+			glScaled(1, 2, 1); // keep z scaled to 0.75
 
+				// draw left upper arm
+				glPushMatrix();
+				setAmbientColor(.1f, .1f, .1f);
+				setDiffuseColor(COLOR_OLIVE);
+				glTranslated(0.5, 0, 0);
+				glScaled(0.5, -1, 1);
+				drawBox(1, 1, 1);
+
+					// draw left lower arm
+					glPushMatrix();
+					glTranslated(0, 1, 0);
+					glScaled(1, 1.5, 1);
+					drawBox(1, 1, 1);
+						// draw hand
+						// draw palm
+							// draw thumb
+							// draw 4 fingers as a rectangle
+
+					glPopMatrix();
+				glPopMatrix();
 			glPopMatrix();
 
 			// draw right limb
@@ -248,7 +271,7 @@ int main()
 	controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
 	controls[UPPER_BODY_ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
 	controls[HEAD_ROTATE] = ModelerControl("Head Rotate", -90, 90, 1, 0);
-	controls[LEFT_ARM_X_ROTATE] = ModelerControl("Left Arm X Rotate", 0, 359, 1, 0);
+	controls[LEFT_ARM_X_ROTATE] = ModelerControl("Left Arm X Rotate", -70, 150, 1, 0);
 	controls[LEFT_ARM_Y_ROTATE] = ModelerControl("Left Arm Y Rotate", -30, 30, 1, 0);
 	controls[LEFT_ARM_Z_ROTATE] = ModelerControl("Left Arm Z Rotate", 0, 30, 1, 10);
 
