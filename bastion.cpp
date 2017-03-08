@@ -8,6 +8,8 @@
 #define COLOR_BEIGE 245.0f / 255.0f, 245.0f / 255.0f, 220.0f / 255.0f
 #define COLOR_GRAY 105.0f / 255.0f, 105.0f / 255.0f, 105.0f / 255.0f
 #define COLOR_CYAN 0.0f, 1.0f, 1.0f
+#define COLOR_ORANGE 1.0f ,140.0f / 255.0f , 0.0f
+#define COLOR_OLIVE 107.0f / 255.0f, 142.0f / 255.0f , 35.0f / 255.0f
 
 // To make a SampleModel, we inherit off of ModelerView
 class BastionModel : public ModelerView
@@ -49,38 +51,75 @@ void BastionModel::draw()
 	glPushMatrix();
 	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
+		// draw upper body
 		// draw waist
 		glPushMatrix();
 		glTranslated(0, 2, 0.5);
 		glRotated(VAL(ROTATE), 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0, 0); // x' = x, y' = -z, z' = y
-		drawCylinder(0.5, 0.5, 0.5);
-
-		// draw body
-		setAmbientColor(.1f, .1f, .1f);
-		setDiffuseColor(COLOR_BEIGE);
-		glTranslated(-1, 1, 0.5);
-		glScaled(2, -2.5, 1.5);
-		drawBox(1, 1, 1);
+		drawCylinder(1, 0.5, 0.5);
 
 		// return to origin, reset axis
-		glScaled(0.5, 1.0 / -2.5, 1.0 / 1.5);
-		glTranslated(1, -1, -0.5);
 		glRotated(90, 1.0, 0, 0);
 		glTranslated(0, -2, -0.5);
+
+		// draw body (beige)
+		setAmbientColor(.1f, .1f, .1f);
+		setDiffuseColor(COLOR_BEIGE);
+		// front
+		drawTriangle(-1, 4, -0.5, -1, 4, 1.5, 1, 4, -0.5);
+		drawTriangle(-1, 4, 1.5, 1, 4, 1.5, 1, 4, -0.5);
+		drawTriangle(1, 4, 1.5, -1, 4, 1.5, 0.75, 3.25, 2.5);
+		drawTriangle(0.75, 3.25, 2.5, -1, 4, 1.5, -0.75, 3.25, 2.5);
+		drawTriangle(0.75, 3.25, 2.5, -0.75, 3.25, 2.5, 0.75, 2.75, 2.25);
+		drawTriangle(-0.75, 3.25, 2.5, -0.75, 2.75, 2.25, 0.75, 2.75, 2.25);
+		// right side
+		drawTriangle(-1, 2.75, 1.75, -0.75, 2.75, 2.25, -0.75, 3.25, 2.5);
+		drawTriangle(-0.75, 3.25, 2.5, -1, 4, 1.5, -1, 2.75, 1.75);
+		drawTriangle(-1, 4, 1.5, -1, 3, 0.5, -1, 2.75, 1.75);
+		drawTriangle(-1, 2.75, 1.75, -1, 3, 0.5, -1, 2.5, 1.25);
+		drawTriangle(-1, 3, 0.5, -1, 4, 1.5, -1, 4, 0.5);
+		// left side
+		drawTriangle(1, 2.75, 1.75, 0.75, 3.25, 2.5, 0.75, 2.75, 2.25);
+		drawTriangle(0.75, 3.25, 2.5, 1, 2.75, 1.75, 1, 4, 1.5);
+		drawTriangle(1, 4, 1.5, 1, 2.75, 1.75, 1, 3, 0.5);
+		drawTriangle(1, 2.75, 1.75, 1, 2.5, 1.25, 1, 3, 0.5);
+		drawTriangle(1, 3, 0.5, 1, 4, 0.5, 1, 4, 1.5);
+		// bottom
+		drawTriangle(-0.75, 2.75, 2.25, -1, 2.75, 1.75, 1, 2.75, 1.75);
+		drawTriangle(-0.75, 2.75, 2.25, 1, 2.75, 1.75, 0.75, 2.75, 2.25);
+		drawTriangle(-1, 2.75, 1.75, 1, 2.5, 1.25, 1, 2.75, 1.75);
+		drawTriangle(-1, 2.75, 1.75, -1, 2.5, 1.25, 1, 2.5, 1.25);
+		drawTriangle(-1, 2.5, 1.25, 1, 3, 0.5, 1, 2.5, 1.25);
+		drawTriangle(-1, 2.5, 1.25, -1, 3, 0.5, 1, 3, 0.5);
+		// gray part
+		setAmbientColor(.1f, .1f, .1f);
+		setDiffuseColor(COLOR_GRAY);
+		// left
+		drawTriangle(-1, 4, -0.5, -1, 3, 0.5, -1, 4, 0.5);
+		drawTriangle(-1, 4, -0.5, -1, 3, -0.5, -1, 3, 0.5);
+		// right
+		drawTriangle(1, 4, 0.5, 1, 3, -0.5, 1, 4, -0.5);
+		drawTriangle(1, 4, 0.5, 1, 3, 0.5, 1, 3, -0.5);
+		// bottom
+		drawTriangle(-1, 3, 0.5, -1, 3, -0.5, 1, 3, -0.5);
+		drawTriangle(-1, 3, 0.5, 1, 3, -0.5, 1, 3, 0.5);
+		// back
+		drawTriangle(1, 4, -0.5, -1, 3, -0.5, -1, 4, -0.5);
+		drawTriangle(1, 4, -0.5, 1, 3, -0.5, -1, 3, -0.5);
 
 			// draw neck
 			glPushMatrix();
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_GRAY);
-			glTranslated(-0.45, 4, 0.25);
-			glScaled(0.9, 0.5, 0.5);
+			glTranslated(-0.375, 4, 0.25);
+			glScaled(0.75, 0.5, 0.5);
 			drawBox(1, 1, 1);
 
 			// draw head
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_BEIGE);
-			glScaled(1.0 / 0.9, 2, 2);
+			glScaled(0.85 / 0.75, 2, 2);
 			glTranslated(-0.05, 0.5, -0.25);
 			drawBox(1, 1, 1);
 
@@ -96,20 +135,51 @@ void BastionModel::draw()
 			glPushMatrix();
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_BEIGE);
-			glTranslated(0, 3, -1);
+			glTranslated(0, 3, -1.25);
 			glRotated(-90, 1.0, 0, 0);
-			drawCylinder(0.75, 0.5, 0.5);
+			drawCylinder(0.75, 0.75, 0.75);
 
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_GRAY);
 			glTranslated(0, 0, 0.75);
-			drawCylinder(2.5, 0.4, 0.4);
+			drawCylinder(2.5, 0.6, 0.6);
 			glPopMatrix();
+
+			// draw left limb
+			// draw left shoulders (movable & shoulder plates)
+			glPushMatrix();
+			setAmbientColor(.1f, .1f, .1f);
+			setDiffuseColor(COLOR_ORANGE);
+			glTranslated(1, 3.25, -0.375);
+			glScaled(1, 0.5, 0.75);
+			drawBox(1, 1, 1);
+			// draw shoulder plates
+			setAmbientColor(.1f, .1f, .1f);
+			setDiffuseColor(COLOR_BEIGE);
+			glTranslated(0.5, 1.25, 0);
+			glScaled(1, 0.5, 1);
+			drawBox(1, 1, 1);
+			glTranslated(0.75, 0, 0);
+			glScaled(0.25, -4, 1);
+			drawBox(1, 1, 1);
+
+				// draw left upper arm
+					// draw left lower arm
+						// draw hand
+
+			glPopMatrix();
+
+			// draw right limb
+			// draw right shoulders (movable & shoulder plates)
+				// draw right upper arm
+					// draw gun
 
 		glPopMatrix();
 
-
-		
+		// draw lower body
+		// draw pelvis
+			//draw left leg
+			//draw right leg
 
 	glPopMatrix();
 }
