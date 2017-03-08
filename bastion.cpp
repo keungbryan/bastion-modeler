@@ -215,14 +215,17 @@ void BastionModel::draw()
 				glPushMatrix();
 				setAmbientColor(.1f, .1f, .1f);
 				setDiffuseColor(COLOR_OLIVE);
-				glTranslated(0.5, 0, 0);
-				glScaled(0.5, -1, 1);
+				glTranslated(0.5, 0, 0.125);
+				glScaled(0.5, -1.5, 0.75);
 				drawBox(1, 1, 1);
+				// reset scale
+				glScaled(1, 1 / -1.5, 1);
 
 					// draw left lower arm
 					glPushMatrix();
-					glTranslated(0, 1, 0);
-					glScaled(1, 1.5, 1);
+					glTranslated(0, -1.5, 0);
+					//glRotated(-45, 1.0, 0, 0);
+					glScaled(1, -1.5, 1);
 					drawBox(1, 1, 1);
 						// draw hand
 						// draw palm
