@@ -224,17 +224,154 @@ void BastionModel::draw()
 					// draw left lower arm
 					glPushMatrix();
 					glTranslated(0, -1.5, 0);
-					glRotated(-45, 1.0, 0, 0);
+					//glRotated(-45, 1.0, 0, 0);
 					glScaled(0.5, -1.5, 0.5);
 					drawBox(1, 1, 1);
 					// reset scale
 					glScaled(2, 1 / -1.5, 2);
-
+					
 						// draw hand
 						// draw palm
-							// draw thumb
-							// draw 4 fingers as a rectangle
+						setAmbientColor(.1f, .1f, .1f);
+						setDiffuseColor(COLOR_GRAY);
+						glPushMatrix();
+						glTranslated(0.125, -1.6, 0);
+						// glRotate
 
+						drawBox(0.25, -0.5, 0.5);
+							// draw thumb
+							// proximal phalanx
+							glPushMatrix();
+							/*glTranslated(0, -0.1, 0.5);
+							glRotated(-45, 1.0, 0, 0);
+							drawBox(0.2, -0.2, 0.2);*/
+							glTranslated(0.1, -0.1, 0.6);
+							drawSphere(0.075);
+							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
+							drawCylinder(0.175, 0.075, 0.075);
+								// middle phalanx
+								glPushMatrix();
+								/*glTranslated(0, -0.25, 0);
+								drawBox(0.2, -0.2, 0.2);*/
+								glTranslated(0, 0, 0.2);
+								drawSphere(0.075);
+								glTranslated(0, 0, 0.025);
+								drawCylinder(0.15, 0.075, 0.07);
+									// distal phalanx
+									glPushMatrix();
+									glTranslated(0, 0, 0.175);
+									drawSphere(0.07);
+									glTranslated(0, 0, 0.025);
+									drawCylinder(0.1, 0.07, 0.065);
+									glTranslated(0, 0, 0.1);
+									drawSphere(0.065);
+									/*glTranslated(0, -0.25, 0);
+									drawBox(0.2, -0.1, 0.2);*/
+									glPopMatrix();
+								glPopMatrix();
+							glPopMatrix();
+							// draw 4 fingers
+							// index
+							// proximal
+							glPushMatrix();
+							glTranslated(0.1, -0.525, 0.44);
+							drawSphere(0.06);
+							glTranslated(0, -0.025, 0);
+							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
+							drawCylinder(0.15, 0.06, 0.06);
+								// middle
+								glPushMatrix();
+								glTranslated(0, 0, 0.175);
+								drawSphere(0.06);
+								glTranslated(0, 0, 0.025);
+								drawCylinder(0.15, 0.06, 0.05);
+									// distal
+									glPushMatrix();
+									glTranslated(0, 0, 0.175);
+									drawSphere(0.05);
+									glTranslated(0, 0, 0.025);
+									drawCylinder(0.1, 0.05, 0.04);
+									glTranslated(0, 0, 0.1);
+									drawSphere(0.04);
+									glPopMatrix();
+								glPopMatrix();
+							glPopMatrix();
+							// middle
+							// proximal
+							glPushMatrix();
+							glTranslated(0.1, -0.525, 0.3);
+							drawSphere(0.06);
+							glTranslated(0, -0.025, 0);
+							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
+							drawCylinder(0.2, 0.06, 0.06);
+								// middle
+								glPushMatrix();
+								glTranslated(0, 0, 0.225);
+								drawSphere(0.06);
+								glTranslated(0, 0, 0.025);
+								drawCylinder(0.15, 0.06, 0.05);
+									// distal
+									glPushMatrix();
+									glTranslated(0, 0, 0.175);
+									drawSphere(0.05);
+									glTranslated(0, 0, 0.025);
+									drawCylinder(0.1, 0.05, 0.04);
+									glTranslated(0, 0, 0.1);
+									drawSphere(0.04);
+									glPopMatrix();
+								glPopMatrix();
+							glPopMatrix();
+							// ring
+							// proximal
+							glPushMatrix();
+							glTranslated(0.1, -0.525, 0.16);
+							drawSphere(0.06);
+							glTranslated(0, -0.025, 0);
+							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
+							drawCylinder(0.15, 0.06, 0.06);
+								// middle
+								glPushMatrix();
+								glTranslated(0, 0, 0.175);
+								drawSphere(0.06);
+								glTranslated(0, 0, 0.025);
+								drawCylinder(0.15, 0.06, 0.05);
+									// distal
+									glPushMatrix();
+									glTranslated(0, 0, 0.175);
+									drawSphere(0.05);
+									glTranslated(0, 0, 0.025);
+									drawCylinder(0.1, 0.05, 0.04);
+									glTranslated(0, 0, 0.1);
+									drawSphere(0.04);
+									glPopMatrix();
+								glPopMatrix();
+							glPopMatrix();
+							// pinky
+							// proximal
+							glPushMatrix();
+							glTranslated(0.1, -0.52, 0.04);
+							drawSphere(0.04);
+							glTranslated(0, -0.02, 0);
+							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
+							drawCylinder(0.1, 0.04, 0.04);
+								// middle
+								glPushMatrix();
+								glTranslated(0, 0, 0.115);
+								drawSphere(0.04);
+								glTranslated(0, 0, 0.015);
+								drawCylinder(0.1, 0.04, 0.03);
+									// distal
+									glPushMatrix();
+									glTranslated(0, 0, 0.115);
+									drawSphere(0.03);
+									glTranslated(0, 0, 0.015);
+									drawCylinder(0.1, 0.03, 0.02);
+									glTranslated(0, 0, 0.1);
+									drawSphere(0.02);
+									glPopMatrix();
+								glPopMatrix();
+							glPopMatrix();
+						glPopMatrix();
 					glPopMatrix();
 				glPopMatrix();
 			glPopMatrix();
