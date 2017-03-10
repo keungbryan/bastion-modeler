@@ -198,10 +198,10 @@ void BastionModel::draw()
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_BEIGE);
 			glTranslated(0.5, 1.25, 0);
-			glScaled(1, 0.5, 1);
+			glScaled(1, 0.5, 1); // 1, .25, .75
 			drawBox(1, 1, 1);
 			glTranslated(0.75, 0, 0);
-			glScaled(0.25, -4, 1);
+			glScaled(0.25, -4, 1); // .25, -1, .75
 			drawBox(1, 1, 1);
 
 			// reset transformation to start of shoulder
@@ -378,9 +378,44 @@ void BastionModel::draw()
 
 			// draw right limb
 			// draw right shoulders (movable & shoulder plates)
+			glPushMatrix();
+			setAmbientColor(.1f, .1f, .1f);
+			setDiffuseColor(COLOR_ORANGE);
+			glTranslated(-1, 3.25, -0.375);
+			//rotations
+
+			glScaled(-1, 0.5, 0.75); // x' = -x
+			drawBox(1, 1, 1);
+
+			// draw shoulder plates
+			setAmbientColor(.1f, .1f, .1f);
+			setDiffuseColor(COLOR_BEIGE);
+			glTranslated(0.5, 1.25, 0);
+			glScaled(1, 0.5, 1); // -1, .25, .75
+			drawBox(1, 1, 1);
+			glTranslated(0.75, 0, 0);
+			glScaled(0.25, -4, 1); // -.25, -1, .75
+			drawBox(1, 1, 1);
+
+			// reset transformation to start of shoulder
+			glScaled(4, -0.25, 1);
+			glTranslated(-0.75, 0, 0);
+			glScaled(1, 2, 1);
+			glTranslated(-0.5, -1.25, 0);
+			glScaled(1, 2, 1 / 0.75);
+
 				// draw right upper arm
+				glPushMatrix();
+				setAmbientColor(.1f, .1f, .1f);
+				setDiffuseColor(COLOR_OLIVE);
+				glTranslated(0.5, 0, 0.125);
+				drawBox(.5, -1.5, .5);
+				glScaled(-1, 1, 1);
+				glTranslated(-0.25, -2, 0);
 					// draw gun
 
+				glPopMatrix();
+			glPopMatrix();
 		glPopMatrix();
 
 		
