@@ -181,15 +181,15 @@ void BastionModel::draw()
 			glTranslated(1, 3.25, -0.375);
 			
 			glTranslated(0, 0.5, 0);
-			glRotated(VAL(LEFT_ARM_Z_ROTATE), 0.0, 0.0, 1.0);
+			glRotated(VAL(LEFT_SHOULDER_Z_ROTATE), 0.0, 0.0, 1.0);
 			glTranslated(0, -0.5, 0);
 
 			glTranslated(0, 0, 0.5);
-			glRotated(VAL(LEFT_ARM_Y_ROTATE), 0.0, 1.0, 0.0);
+			glRotated(VAL(LEFT_SHOULDER_Y_ROTATE), 0.0, 1.0, 0.0);
 			glTranslated(0, 0, -0.5);
 
 			glTranslated(0, 0.5, 0.5);
-			glRotated(-VAL(LEFT_ARM_X_ROTATE), 1.0, 0.0, 0.0);
+			glRotated(-VAL(LEFT_SHOULDER_X_ROTATE), 1.0, 0.0, 0.0);
 			glTranslated(0, -0.5, -0.5);
 
 			glScaled(1, 0.5, 0.75);
@@ -217,6 +217,11 @@ void BastionModel::draw()
 				setAmbientColor(.1f, .1f, .1f);
 				setDiffuseColor(COLOR_OLIVE);
 				glTranslated(0.5, 0, 0.125);
+
+				glTranslated(0.25, 0, 0.25);
+				glRotated(VAL(LEFT_UPPER_ARM_Y_ROTATE), 0.0, -1.0, 0.0);
+				glTranslated(-0.25, 0, -0.25);
+
 				glScaled(0.5, -1.5, 0.5);
 				drawBox(1, 1, 1);
 				// reset scale
@@ -225,7 +230,12 @@ void BastionModel::draw()
 					// draw left lower arm
 					glPushMatrix();
 					glTranslated(0, -1.5, 0);
-					//glRotated(-45, 1.0, 0, 0);
+
+					glTranslated(0.25, 0, 0.25);
+					glRotated(VAL(LEFT_LOWER_ARM_X_ROTATE), -1.0, 0, 0);
+					glRotated(VAL(LEFT_LOWER_ARM_Y_ROTATE), 0, 1.0, 0);
+					glTranslated(-0.25, 0, -0.25);
+
 					glScaled(0.5, -1.5, 0.5);
 					drawBox(1, 1, 1);
 					// reset scale
@@ -237,37 +247,36 @@ void BastionModel::draw()
 						setDiffuseColor(COLOR_GRAY);
 						glPushMatrix();
 						glTranslated(0.125, -1.6, 0);
-						// glRotate
+
+						glTranslated(0.125, 0, 0);
+						glRotated(VAL(LEFT_WRIST_Z_ROTATE), 0, 0, 1.0);
+						glTranslated(-0.125, 0, 0);
 
 						drawBox(0.25, -0.5, 0.5);
 							// draw thumb
 							// proximal phalanx
 							glPushMatrix();
-							/*glTranslated(0, -0.1, 0.5);
-							glRotated(-45, 1.0, 0, 0);
-							drawBox(0.2, -0.2, 0.2);*/
 							glTranslated(0.1, -0.1, 0.6);
 							drawSphere(0.075);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
+							glRotated(VAL(THUMB_PROXIMAL_ROTATE), -1.0, 0, 0);
 							drawCylinder(0.175, 0.075, 0.075);
 								// middle phalanx
 								glPushMatrix();
-								/*glTranslated(0, -0.25, 0);
-								drawBox(0.2, -0.2, 0.2);*/
 								glTranslated(0, 0, 0.2);
 								drawSphere(0.075);
+								glRotated(VAL(THUMB_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
 								drawCylinder(0.15, 0.075, 0.07);
 									// distal phalanx
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
 									drawSphere(0.07);
+									glRotated(VAL(THUMB_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
 									drawCylinder(0.1, 0.07, 0.065);
 									glTranslated(0, 0, 0.1);
 									drawSphere(0.065);
-									/*glTranslated(0, -0.25, 0);
-									drawBox(0.2, -0.1, 0.2);*/
 									glPopMatrix();
 								glPopMatrix();
 							glPopMatrix();
@@ -277,6 +286,7 @@ void BastionModel::draw()
 							glPushMatrix();
 							glTranslated(0.1, -0.525, 0.44);
 							drawSphere(0.06);
+							glRotated(VAL(INDEX_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.025, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
 							drawCylinder(0.15, 0.06, 0.06);
@@ -284,12 +294,14 @@ void BastionModel::draw()
 								glPushMatrix();
 								glTranslated(0, 0, 0.175);
 								drawSphere(0.06);
+								glRotated(VAL(INDEX_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
 								drawCylinder(0.15, 0.06, 0.05);
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
 									drawSphere(0.05);
+									glRotated(VAL(INDEX_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
 									drawCylinder(0.1, 0.05, 0.04);
 									glTranslated(0, 0, 0.1);
@@ -302,6 +314,7 @@ void BastionModel::draw()
 							glPushMatrix();
 							glTranslated(0.1, -0.525, 0.3);
 							drawSphere(0.06);
+							glRotated(VAL(MIDDLE_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.025, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
 							drawCylinder(0.2, 0.06, 0.06);
@@ -309,12 +322,14 @@ void BastionModel::draw()
 								glPushMatrix();
 								glTranslated(0, 0, 0.225);
 								drawSphere(0.06);
+								glRotated(VAL(MIDDLE_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
 								drawCylinder(0.15, 0.06, 0.05);
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
 									drawSphere(0.05);
+									glRotated(VAL(MIDDLE_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
 									drawCylinder(0.1, 0.05, 0.04);
 									glTranslated(0, 0, 0.1);
@@ -327,6 +342,7 @@ void BastionModel::draw()
 							glPushMatrix();
 							glTranslated(0.1, -0.525, 0.16);
 							drawSphere(0.06);
+							glRotated(VAL(RING_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.025, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
 							drawCylinder(0.15, 0.06, 0.06);
@@ -334,12 +350,14 @@ void BastionModel::draw()
 								glPushMatrix();
 								glTranslated(0, 0, 0.175);
 								drawSphere(0.06);
+								glRotated(VAL(RING_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
 								drawCylinder(0.15, 0.06, 0.05);
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
 									drawSphere(0.05);
+									glRotated(VAL(RING_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
 									drawCylinder(0.1, 0.05, 0.04);
 									glTranslated(0, 0, 0.1);
@@ -352,6 +370,7 @@ void BastionModel::draw()
 							glPushMatrix();
 							glTranslated(0.1, -0.52, 0.04);
 							drawSphere(0.04);
+							glRotated(VAL(PINKY_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.02, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
 							drawCylinder(0.1, 0.04, 0.04);
@@ -359,12 +378,14 @@ void BastionModel::draw()
 								glPushMatrix();
 								glTranslated(0, 0, 0.115);
 								drawSphere(0.04);
+								glRotated(VAL(PINKY_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.015);
 								drawCylinder(0.1, 0.04, 0.03);
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.115);
 									drawSphere(0.03);
+									glRotated(VAL(PINKY_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.015);
 									drawCylinder(0.1, 0.03, 0.02);
 									glTranslated(0, 0, 0.1);
@@ -794,9 +815,28 @@ int main()
 	controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
 	controls[UPPER_BODY_ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
 	controls[HEAD_ROTATE] = ModelerControl("Head Rotate", -90, 90, 1, 0);
-	controls[LEFT_ARM_X_ROTATE] = ModelerControl("Left Arm X Rotate", -70, 150, 1, 0);
-	controls[LEFT_ARM_Y_ROTATE] = ModelerControl("Left Arm Y Rotate", -30, 30, 1, 0);
-	controls[LEFT_ARM_Z_ROTATE] = ModelerControl("Left Arm Z Rotate", 0, 30, 1, 10);
+	controls[LEFT_SHOULDER_X_ROTATE] = ModelerControl("Left Shoulder X Rotate", -70, 150, 1, 0);
+	controls[LEFT_SHOULDER_Y_ROTATE] = ModelerControl("Left Shoulder Y Rotate", -30, 30, 1, 0);
+	controls[LEFT_SHOULDER_Z_ROTATE] = ModelerControl("Left Shoulder Z Rotate", 0, 30, 1, 10);
+	controls[LEFT_UPPER_ARM_Y_ROTATE] = ModelerControl("Left Upper Arm Y Rotate", -30, 90, 1, 0);
+	controls[LEFT_LOWER_ARM_X_ROTATE] = ModelerControl("Left Lower Arm X Rotate", 0, 150, 1, 45);
+	controls[LEFT_LOWER_ARM_Y_ROTATE] = ModelerControl("Left Lower Arm Y Rotate", -90, 90, 1, 0);
+	controls[LEFT_WRIST_Z_ROTATE] = ModelerControl("Left Wrist Z Rotate", -90, 90, 1, 0);
+	controls[THUMB_PROXIMAL_ROTATE] = ModelerControl("Thumb Proximal Phalanx Rotate", 0, 80, 1, 10);
+	controls[THUMB_MIDDLE_ROTATE] = ModelerControl("Thumb Middle Phalanx Rotate", 0, 90, 1, 10);
+	controls[THUMB_DISTAL_ROTATE] = ModelerControl("Thumb Distal Phalanx Rotate", 0, 90, 1, 10);
+	controls[INDEX_PROXIMAL_ROTATE] = ModelerControl("Index Proximal Phalanx Rotate", 0, 90, 1, 10);
+	controls[INDEX_MIDDLE_ROTATE] = ModelerControl("Index Middle Phalanx Rotate", 0, 90, 1, 10);
+	controls[INDEX_DISTAL_ROTATE] = ModelerControl("Index Distal Phalanx Rotate", 0, 90, 1, 10);
+	controls[MIDDLE_PROXIMAL_ROTATE] = ModelerControl("Middle Proximal Phalanx Rotate", 0, 90, 1, 10);
+	controls[MIDDLE_MIDDLE_ROTATE] = ModelerControl("Middle Middle Phalanx Rotate", 0, 90, 1, 10);
+	controls[MIDDLE_DISTAL_ROTATE] = ModelerControl("Middle Distal Phalanx Rotate", 0, 90, 1, 10);
+	controls[RING_PROXIMAL_ROTATE] = ModelerControl("Ring Proximal Phalanx Rotate", 0, 90, 1, 10);
+	controls[RING_MIDDLE_ROTATE] = ModelerControl("Ring Middle Phalanx Rotate", 0, 90, 1, 10);
+	controls[RING_DISTAL_ROTATE] = ModelerControl("Ring Distal Phalanx Rotate", 0, 90, 1, 10);
+	controls[PINKY_PROXIMAL_ROTATE] = ModelerControl("Pinky Proximal Phalanx Rotate", 0, 90, 1, 10);
+	controls[PINKY_MIDDLE_ROTATE] = ModelerControl("Pinky Middle Phalanx Rotate", 0, 90, 1, 10);
+	controls[PINKY_DISTAL_ROTATE] = ModelerControl("Pinky Distal Phalanx Rotate", 0, 90, 1, 10);
 	controls[LEFT_UPPER_LEG_X_ROTATE] = ModelerControl("Left Upper Leg X Rotate", 0, 45, 1, 30);
 	controls[LEFT_UPPER_LEG_Y_ROTATE] = ModelerControl("Left Upper Leg Y Rotate", -20, 20, 1, 15);
 	controls[LEFT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Left Middle Leg X Rotate", 0, 90, 1, 60);
