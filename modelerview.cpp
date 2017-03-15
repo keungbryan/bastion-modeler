@@ -7,9 +7,14 @@
 #include <GL/glu.h>
 #include <cstdio>
 
+#include "modelerapp.h"
+#include "modelerdraw.h"
+#include "modelerglobals.h"
+
 static const int	kMouseRotationButton			= FL_LEFT_MOUSE;
 static const int	kMouseTranslationButton			= FL_MIDDLE_MOUSE;
 static const int	kMouseZoomButton				= FL_RIGHT_MOUSE;
+static const int	kMouseTwistButton				= FL_RIGHT_MOUSE;
 
 ModelerView::ModelerView(int x, int y, int w, int h, char *label)
 : Fl_Gl_Window(x,y,w,h,label)
@@ -76,8 +81,10 @@ int ModelerView::handle(int event)
 }
 
 static GLfloat lightPosition0[] = { 4, 2, -4, 0 };
+//static GLfloat lightPosition0[] = { VAL(LIGHT_TEST), 2, -4, 0 };
 static GLfloat lightDiffuse0[]  = { 1,1,1,1 };
-static GLfloat lightPosition1[] = { -2, 1, 5, 0 };
+//static GLfloat lightPosition1[] = { -2, 1, 5, 0 };
+//static GLfloat lightPosition1[] = { VAL(LIGHT_TEST), 1, 5, 0 };
 static GLfloat lightDiffuse1[]  = { 1, 1, 1, 1 };
 
 void ModelerView::draw()
@@ -101,6 +108,9 @@ void ModelerView::draw()
 	glLoadIdentity();
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_camera->applyViewingTransform();
+
+	GLfloat lightPosition1[] = { -2, 1, 5, 0 };
+	lightPosition1[0] = VAL(LIGHT_TEST);
 
     glLightfv( GL_LIGHT0, GL_POSITION, lightPosition0 );
     glLightfv( GL_LIGHT0, GL_DIFFUSE, lightDiffuse0 );
