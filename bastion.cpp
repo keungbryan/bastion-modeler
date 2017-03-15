@@ -665,7 +665,7 @@ void BastionModel::draw()
 
 			//draw left leg
 			glPushMatrix();
-
+			//draw joint
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_GRAY);
 			glTranslated(0.0, -0.45, 0.0);
@@ -677,122 +677,134 @@ void BastionModel::draw()
 			glTranslated(0.0, 0.0, -0.65);
 				
 			glRotated(-90, 0.0, 1.0, 0.0);
-
-			glRotated(-VAL(LEFT_UPPER_LEG_X_ROTATE), 1.0, 0.0, 0.0);
-			
-			glTranslated(0.65, -1.1, -0.3);
 				
 				//draw left upper leg
-				glPushMatrix();				
-				glScaled(0.8, 1.25, 0.6);
-				drawBox(1, 1, 1);
-				glPopMatrix();
+				glPushMatrix();	
 
-				//draw left upper leg plates
-				glPushMatrix();
+				glRotated(-VAL(LEFT_UPPER_LEG_X_ROTATE), 1.0, 0.0, 0.0);
+				glTranslated(0.65, -1.1, -0.3);
+
+				drawBox(0.8, 1.25, 0.6);
+
+					//draw left upper leg plates
+					glPushMatrix();
+					setAmbientColor(.1f, .1f, .1f);
+					setDiffuseColor(COLOR_BEIGE);
+					glTranslated(-0.1, 0.0, 0.75);
+					drawBox(1, 1.1, 0.25);
+
+					glTranslated(0.0, 1.1, 0.0);
+					drawTriangle(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.25, 0.0);
+					drawTriangle(0.0, 0.0, 0.25, 0.5, 0.0, 0.25, 0.5, 0.25, 0.25);
+					drawTriangle(0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25, 0.25);
+					drawTriangle(0.0, 0.0, 0.0, 0.5, 0.25, 0.25, 0.5, 0.25, 0.0);
+
+					glTranslated(0.5, 0.0, 0.0);
+					drawBox(0.5, 0.5, 0.25);
+					glPopMatrix();
+
+
+				//draw joint
 				setAmbientColor(.1f, .1f, .1f);
-				setDiffuseColor(COLOR_BEIGE);
-				glTranslated(-0.1, 0.0, 0.75);
-				drawBox(1, 1.1, 0.25);
+				setDiffuseColor(COLOR_GRAY);
+				glTranslated(0.0, 0.0, 0.3);
+				glRotated(90, 0.0, 1.0, 0.0);
+				drawCylinder(0.8, 0.3, 0.3);
+				glRotated(-90, 0.0, 1.0, 0.0);
 
-				glTranslated(0.0, 1.1, 0.0);
-				drawTriangle(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.25, 0.0);
-				drawTriangle(0.0, 0.0, 0.25, 0.5, 0.0, 0.25, 0.5, 0.25, 0.25);
-				drawTriangle(0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25, 0.25);
-				drawTriangle(0.0, 0.0, 0.0, 0.5, 0.25, 0.25, 0.5, 0.25, 0.0);
+					
+					//draw left middle leg
+					glPushMatrix();
+					glRotated(VAL(LEFT_MIDDLE_LEG_X_ROTATE), 1.0, 0.0, 0.0);
+					glTranslated(0.0, -1.25, -0.3);
+					drawBox(0.8, 1.25, 0.6);
 
-				glTranslated(0.5, 0.0, 0.0);
-				drawBox(0.5, 0.5, 0.25);
-				glPopMatrix();
+						//draw left middle leg plates
+						glPushMatrix();
+						setAmbientColor(.1f, .1f, .1f);
+						setDiffuseColor(COLOR_OLIVE);
+						glTranslated(-0.1, 0.35, 0.75);
+						drawBox(1, 0.9, 0.25);
+						glPopMatrix();
 
-
-			setAmbientColor(.1f, .1f, .1f);
-			setDiffuseColor(COLOR_GRAY);
-			glTranslated(0.0, 0.0, 0.3);
-			glRotated(90, 0.0, 1.0, 0.0);
-			drawCylinder(0.8, 0.3, 0.3);
-			glRotated(-90, 0.0, 1.0, 0.0);
-
-			glRotated(VAL(LEFT_MIDDLE_LEG_X_ROTATE), 1.0, 0.0, 0.0);
-
-			glTranslated(0.0, -1.25, -0.3);
-
-			//draw left middle leg
-			drawBox(0.8, 1.25, 0.6);
-				//draw left middle leg plates
-				glPushMatrix();
-				setAmbientColor(.1f, .1f, .1f);
-				setDiffuseColor(COLOR_OLIVE);
-				glTranslated(-0.1, 0.35, 0.75);
-				drawBox(1, 0.9, 0.25);
-				glPopMatrix();
+					//draw joint
+					setAmbientColor(.1f, .1f, .1f);
+					setDiffuseColor(COLOR_GRAY);
+					glTranslated(0.0, 0.0, 0.3);
+					glRotated(90, 0.0, 1.0, 0.0);
+					drawCylinder(0.8, 0.35, 0.35);
+					glRotated(-90, 0.0, 1.0, 0.0);
 
 
-			setAmbientColor(.1f, .1f, .1f);
-			setDiffuseColor(COLOR_GRAY);
-			glTranslated(0.0, 0.0, 0.3);
-			glRotated(90, 0.0, 1.0, 0.0);
-			drawCylinder(0.8, 0.35, 0.35);
-			glRotated(-90, 0.0, 1.0, 0.0);
 
-			glRotated(-VAL(LEFT_LOWER_LEG_X_ROTATE), 1.0, 0.0, 0.0);
+						//draw left lower leg
+						glPushMatrix();
+						glRotated(-VAL(LEFT_LOWER_LEG_X_ROTATE), 1.0, 0.0, 0.0);
+						glTranslated(0.0, -1.25, -0.3);
+							//draw left lower leg
+							glPushMatrix();
+							glTranslated(0.075, 0.0, 0.05);
+							drawBox(0.65, 1.25, 0.5);
+							glPopMatrix();
+							//draw left lower leg plates
+							glPushMatrix();
+							setAmbientColor(.1f, .1f, .1f);
+							setDiffuseColor(COLOR_OLIVE);
+							glTranslated(-0.1, 0.0, 0.75);
+							drawBox(1, 0.9, 0.25);
+							glPopMatrix();
 
-			glTranslated(0.0, -1.25, -0.3);
-
-				//draw left lower leg
-				glPushMatrix();
-				glTranslated(0.075, 0.0, 0.05);
-				drawBox(0.65, 1.25, 0.5);
-				glPopMatrix();
-				//draw left lower leg plates
-				glPushMatrix();
-				setAmbientColor(.1f, .1f, .1f);
-				setDiffuseColor(COLOR_OLIVE);
-				glTranslated(-0.1, 0.0, 0.75);
-				drawBox(1, 0.9, 0.25);
-				glPopMatrix();
+						//draw joint
+						setAmbientColor(.1f, .1f, .1f);
+						setDiffuseColor(COLOR_GRAY);
+						glTranslated(0.0, 0.0, 0.3);
+						glRotated(90, 0.0, 1.0, 0.0);
+						drawCylinder(0.8, 0.3, 0.3);
+						glRotated(-90, 0.0, 1.0, 0.0);
 
 
-			setAmbientColor(.1f, .1f, .1f);
-			setDiffuseColor(COLOR_GRAY);
-			glTranslated(0.0, 0.0, 0.3);
-			glRotated(90, 0.0, 1.0, 0.0);
-			drawCylinder(0.8, 0.3, 0.3);
-			glRotated(-90, 0.0, 1.0, 0.0);
+							//draw foot
+							glPushMatrix();
+							glRotated(VAL(LEFT_FOOT_X_ROTATE), 1.0, 0.0, 0.0);
+							glTranslated(-0.225, -0.6, -0.75);
 
-			glRotated(VAL(LEFT_FOOT_X_ROTATE), 1.0, 0.0, 0.0);
+							//draw foot
+							setAmbientColor(.1f, .1f, .1f);
+							setDiffuseColor(COLOR_ORANGE);
+							drawBox(1.25, 0.3, 1.5);
+							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
+							drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
+							drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
+							drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
+							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, -0.3, 1.25, 0.0, 0.0);
+							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.3, -0.3, 1.25, 0.0, 0.0);
+							drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
+							drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
+							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
+							drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
 
-			glTranslated(-0.225, -0.6, -0.75);
+							glRotated(180, 0.0, 1.0, 0.0);
+							glTranslated(-1.25, 0.0, -1.5);
+							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
+							drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
+							drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
+							drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
+							drawTriangle(0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 0.0, 0.3, -0.3);
+							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.0, 0.0, 1.25, 0.3, -0.3);
+							drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
+							drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
+							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
+							drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
 
-			//draw foot
-			setAmbientColor(.1f, .1f, .1f);
-			setDiffuseColor(COLOR_ORANGE);
-			drawBox(1.25, 0.3, 1.5);
-			drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
-			drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
-			drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
-			drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
-			drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, -0.3, 1.25, 0.0, 0.0);
-			drawTriangle(0.0, 0.3, -0.3, 1.25, 0.3, -0.3, 1.25, 0.0, 0.0);
-			drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
-			drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
-			drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
-			drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+							glPopMatrix(); // finish foot
 
-			glRotated(180, 0.0, 1.0, 0.0);
-			glTranslated(-1.25, 0.0, -1.5);
-			drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
-			drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
-			drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
-			drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
-			drawTriangle(0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 0.0, 0.3, -0.3);
-			drawTriangle(0.0, 0.3, -0.3, 1.25, 0.0, 0.0, 1.25, 0.3, -0.3);
-			drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
-			drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
-			drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
-			drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+						glPopMatrix(); // finish lower leg
 
-			glPopMatrix();
+					glPopMatrix(); // finish middle leg
+
+				glPopMatrix(); //finish upper leg
+
+			glPopMatrix();// finish left leg
 
 			//draw right leg
 
