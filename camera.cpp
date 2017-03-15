@@ -84,17 +84,18 @@ void Camera::calculateViewingTransformParameters()
 	MakeHTrans(dollyXform, Vec3f(0,0,mDolly));
 	MakeHRotY(azimXform, mAzimuth);
 	MakeHRotX(elevXform, mElevation);
-	MakeDiagonal(twistXform, 1.0f);
+	MakeHRotZ(twistXform, mTwist);
 	MakeHTrans(originXform, mLookAt);
 	
 	mPosition = Vec3f(0,0,0);
 	// grouped for (mat4 * vec3) ops instead of (mat4 * mat4) ops
 	mPosition = originXform * (azimXform * (elevXform * (dollyXform * mPosition)));
+	//mPosition = originXform * (twistXform * (azimXform * (elevXform * (dollyXform * mPosition))));
 
-	if ( fmod((double)mElevation, 2.0*M_PI) < 3*M_PI/2 && fmod((double)mElevation, 2.0*M_PI) > M_PI/2 )
-		mUpVector= Vec3f(0,-1,0);
+	if (fmod((double)mElevation, 2.0*M_PI) < 3 * M_PI / 2 && fmod((double)mElevation, 2.0*M_PI) > M_PI / 2)
+		mUpVector = Vec3f(0, -1, 0);
 	else
-		mUpVector= Vec3f(0,1,0);
+		mUpVector = Vec3f(0, 1, 0);
 
 	mDirtyTransform = false;
 }
@@ -105,6 +106,7 @@ Camera::Camera()
 	mDolly = -30.0f;
 	mElevation = 0.2f;
 	mAzimuth = (float)M_PI;
+	mTwist = 1.0f;
 
 	mLookAt = Vec3f( 0, 0, 0 );
 	mCurrentMouseAction = kActionNone;
@@ -156,6 +158,10 @@ void Camera::dragMouse( int x, int y )
 		{
 			float dDolly = -mouseDelta[1] * kMouseZoomSensitivity;
 			setDolly(getDolly() + dDolly);
+
+			float dTwist = -mouseDelta[0] * kMouseRotationSensitivity;
+			setTwist(getTwist() + dTwist);
+
 			break;
 		}
 	case kActionTwist:
