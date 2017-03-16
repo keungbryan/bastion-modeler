@@ -97,6 +97,8 @@ void Camera::calculateViewingTransformParameters()
 	else
 		mUpVector = Vec3f(0, 1, 0);
 
+	mUpVector = mUpVector * twistXform;
+
 	mDirtyTransform = false;
 }
 
@@ -106,7 +108,7 @@ Camera::Camera()
 	mDolly = -30.0f;
 	mElevation = 0.2f;
 	mAzimuth = (float)M_PI;
-	mTwist = 1.0f;
+	mTwist = 0.0f;
 
 	mLookAt = Vec3f( 0, 0, 0 );
 	mCurrentMouseAction = kActionNone;
