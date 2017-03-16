@@ -432,6 +432,17 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_ORANGE);
 			glTranslated(-1, 3.25, -0.375);
 			//rotations
+			glTranslated(0, 0.5, 0);
+			glRotated(VAL(RIGHT_SHOULDER_Z_ROTATE), 0.0, 0.0, -1.0);
+			glTranslated(0, -0.5, 0);
+
+			glTranslated(0, 0, 0.5);
+			glRotated(VAL(RIGHT_SHOULDER_Y_ROTATE), 0.0, -1.0, 0.0);
+			glTranslated(0, 0, -0.5);
+
+			glTranslated(0, 0.5, 0.5);
+			glRotated(VAL(RIGHT_SHOULDER_X_ROTATE), -1.0, 0.0, 0.0);
+			glTranslated(0, -0.5, -0.5);
 
 			glScaled(-1, 0.5, 0.75); // x' = -x
 			drawBox(1, 1, 1);
@@ -458,14 +469,28 @@ void BastionModel::draw()
 				setAmbientColor(.1f, .1f, .1f);
 				setDiffuseColor(COLOR_OLIVE);
 				glTranslated(0.5, 0, 0.125);
+
+				glTranslated(0.25, 0, 0.25);
+				glRotated(VAL(RIGHT_UPPER_ARM_Y_ROTATE), 0.0, -1.0, 0.0);
+				glTranslated(-0.25, 0, -0.25);
+
 				drawBox(.5, -1.5, .5);
 				glScaled(-1, 1, 1);
-				glTranslated(-0.25, -2, 0);
+				glTranslated(-0.25, -1.5, 0);
+
+				setAmbientColor(.1f, .1f, .1f);
+				setDiffuseColor(COLOR_GRAY);
+				glTranslated(0, 0, 0.25);
+				drawSphere(.25);
+				glRotated(VAL(GUN_X_ROTATE), 1.0, 0, 0);
+				glRotated(VAL(GUN_Y_ROTATE), 0, 1.0, 0);
+				glRotated(VAL(GUN_Z_ROTATE), 0, 0, 1.0);
+				glTranslated(0, 0, -0.25);
+
+				glTranslated(0, -0.5, 0);
 					// draw gun
 					// cylinders
 					glPushMatrix();
-					setAmbientColor(.1f, .1f, .1f);
-					setDiffuseColor(COLOR_GRAY);
 					drawCylinder(.5, 0.25, 0.25);
 
 					setAmbientColor(.1f, .1f, .1f);
@@ -645,7 +670,7 @@ void BastionModel::draw()
 					glTranslated(0.15, 0.8, -1.15);
 
 					// black front
-					double z = 2.3;
+					/*double z = 2.3;
 					drawTriangle(-0.3, -0.1, z, -0.2, -0.1, z, -0.2, 0.15, z);
 					drawTriangle(-0.2, 0.15, z, -0.2, -0.1, z, 0.2, -0.1, z);
 					drawTriangle(-0.2, 0.15, z, 0.2, -0.1, z, 0.2, 0.1, z);
@@ -653,7 +678,11 @@ void BastionModel::draw()
 					drawTriangle(0.15, 0.15, z, 0.2, 0.1, z, 0.25, 0.15, z);
 					drawTriangle(0.15, 0.15, z, 0.25, 0.15, z, 0.265, 0.19, z);
 					drawTriangle(0.15, 0.15, z, 0.265, 0.19, z, 0.225, 0.22, z);
-					drawTriangle(0.15, 0.15, z, 0.225, 0.22, z, 0.185, 0.2, z);
+					drawTriangle(0.15, 0.15, z, 0.225, 0.22, z, 0.185, 0.2, z);*/
+
+					glTranslated(-0.25, -0.8, 2.1);
+					drawBox(0.5, 1, 0.2);
+					glTranslated(0.25, 0.8, -2.1);
 					
 
 					// beige clip holder
@@ -1133,6 +1162,13 @@ int main()
 	controls[PINKY_PROXIMAL_ROTATE] = ModelerControl("Pinky Proximal Phalanx Rotate", 0, 90, 1, 10);
 	controls[PINKY_MIDDLE_ROTATE] = ModelerControl("Pinky Middle Phalanx Rotate", 0, 90, 1, 10);
 	controls[PINKY_DISTAL_ROTATE] = ModelerControl("Pinky Distal Phalanx Rotate", 0, 90, 1, 10);
+	controls[RIGHT_SHOULDER_X_ROTATE] = ModelerControl("Right Shoulder X Rotate", -70, 150, 1, 0);
+	controls[RIGHT_SHOULDER_Y_ROTATE] = ModelerControl("Right Shoulder Y Rotate", -30, 30, 1, 0);
+	controls[RIGHT_SHOULDER_Z_ROTATE] = ModelerControl("Right Shoulder Z Rotate", 0, 30, 1, 10);
+	controls[RIGHT_UPPER_ARM_Y_ROTATE] = ModelerControl("Right Upper Arm Y Rotate", -30, 90, 1, 0);
+	controls[GUN_X_ROTATE] = ModelerControl("Gun X Rotate", -15, 45, 1, 30);
+	controls[GUN_Y_ROTATE] = ModelerControl("Gun Y Rotate", -30, 30, 1, 0);
+	controls[GUN_Z_ROTATE] = ModelerControl("Gun Z Rotate", -45, 45, 1, 0);
 	controls[LEFT_UPPER_LEG_X_ROTATE] = ModelerControl("Left Upper Leg X Rotate", 0, 45, 1, 30);
 	controls[LEFT_UPPER_LEG_Y_ROTATE] = ModelerControl("Left Upper Leg Y Rotate", -20, 20, 1, 15);
 	controls[LEFT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Left Middle Leg X Rotate", 0, 90, 1, 60);
