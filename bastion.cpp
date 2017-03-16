@@ -65,6 +65,9 @@ void BastionModel::draw()
 		drawCylinder(0.2, 0.75, 0.75);
 		glTranslated(0, 0, 0.2);
 		drawCylinder(1, 0.5, 0.5);
+		glTranslated(0, 0, 0.25);
+		drawTorus(0.1, 0.35, 200, 100, 0);
+		glTranslated(0, 0, -0.25);
 
 		// return to origin, reset axis
 		glRotated(90, 1.0, 0, 0);
