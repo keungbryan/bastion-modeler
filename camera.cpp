@@ -160,14 +160,14 @@ void Camera::dragMouse( int x, int y )
 		{
 			float dDolly = -mouseDelta[1] * kMouseZoomSensitivity;
 			setDolly(getDolly() + dDolly);
-
-			float dTwist = -mouseDelta[0] * kMouseRotationSensitivity;
-			setTwist(getTwist() + dTwist);
-
 			break;
 		}
 	case kActionTwist:
-		// Not implemented
+		{
+			float dTwist = -mouseDelta[0] * kMouseRotationSensitivity;
+			setTwist(getTwist() + dTwist);
+			break;
+		}
 	default:
 		break;
 	}
