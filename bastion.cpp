@@ -31,6 +31,9 @@ ModelerView* createBastionModel(int x, int y, int w, int h, char *label)
 	return new BastionModel(x, y, w, h, label);
 }
 
+double lshoulderx, lupperarmy, llowerarmx, llowerarmy;
+bool posdeg = true;
+
 // We are going to override (is that the right word?) the draw()
 // method of ModelerView to draw out SampleModel
 void BastionModel::draw()
@@ -48,6 +51,26 @@ void BastionModel::draw()
 	drawBox(10, 0.01f, 10);
 	glPopMatrix();
 */
+
+	if (VAL(ANIMATE))
+	{
+		lshoulderx = 90;
+		llowerarmx = 90;
+		llowerarmy = -90;
+		if (lupperarmy >= 30)
+			posdeg = false;
+		else if (lupperarmy <= -30)
+			posdeg = true;
+		posdeg ? lupperarmy++ : lupperarmy--;
+	}
+	else
+	{
+		lshoulderx = VAL(LEFT_SHOULDER_X_ROTATE);
+		lupperarmy = VAL(LEFT_UPPER_ARM_Y_ROTATE);
+		llowerarmx = VAL(LEFT_LOWER_ARM_X_ROTATE);
+		llowerarmy = VAL(LEFT_LOWER_ARM_Y_ROTATE);
+	}
+
 	// draw the bastion model
 	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_GRAY);
@@ -55,7 +78,7 @@ void BastionModel::draw()
 	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
 		// translate whole body first
-		glTranslated(0, 2, 0.5);
+		glTranslated(0, 0, 0.5);
 
 		// draw upper body
 		// draw waist
@@ -192,7 +215,7 @@ void BastionModel::draw()
 			glTranslated(0, 0, -0.5);
 
 			glTranslated(0, 0.5, 0.5);
-			glRotated(-VAL(LEFT_SHOULDER_X_ROTATE), 1.0, 0.0, 0.0);
+			glRotated(-lshoulderx, 1.0, 0.0, 0.0);
 			glTranslated(0, -0.5, -0.5);
 
 			glScaled(1, 0.5, 0.75);
@@ -222,7 +245,7 @@ void BastionModel::draw()
 				glTranslated(0.5, 0, 0.125);
 
 				glTranslated(0.25, 0, 0.25);
-				glRotated(VAL(LEFT_UPPER_ARM_Y_ROTATE), 0.0, -1.0, 0.0);
+				glRotated(lupperarmy, 0.0, -1.0, 0.0);
 				glTranslated(-0.25, 0, -0.25);
 
 				glScaled(0.5, -1.5, 0.5);
@@ -235,8 +258,8 @@ void BastionModel::draw()
 					glTranslated(0, -1.5, 0);
 
 					glTranslated(0.25, 0, 0.25);
-					glRotated(VAL(LEFT_LOWER_ARM_X_ROTATE), -1.0, 0, 0);
-					glRotated(VAL(LEFT_LOWER_ARM_Y_ROTATE), 0, 1.0, 0);
+					glRotated(llowerarmx, -1.0, 0, 0);
+					glRotated(llowerarmy, 0, 1.0, 0);
 					glTranslated(-0.25, 0, -0.25);
 
 					glScaled(0.5, -1.5, 0.5);
@@ -1120,7 +1143,8 @@ int main()
 	controls[RIGHT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Right Middle Leg X Rotate", 0, 90, 1, 60);
 	controls[RIGHT_LOWER_LEG_X_ROTATE] = ModelerControl("Right Lower Leg X Rotate", 0, 60, 1, 40);
 	controls[RIGHT_FOOT_X_ROTATE] = ModelerControl("Right Foot X Rotate", -30, 30, 1, 10);
-	controls[LIGHT_TEST] = ModelerControl("Light Test", -30, 30, 1, 0);
+	controls[LIGHT_TEST] = ModelerControl("Light Test", -25, 25, 1, -2);
+	controls[ANIMATE] = ModelerControl("Enable animation", 0, 1, 1, 0);
 
 	ModelerApplication::Instance()->Init(&createBastionModel, controls, NUMCONTROLS);
 	return ModelerApplication::Instance()->Run();
