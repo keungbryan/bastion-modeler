@@ -1112,11 +1112,11 @@ int main()
 	controls[LEFT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Left Middle Leg X Rotate", 0, 90, 1, 60);
 	controls[LEFT_LOWER_LEG_X_ROTATE] = ModelerControl("Left Lower Leg X Rotate", 0, 60, 1, 40);
 	controls[LEFT_FOOT_X_ROTATE] = ModelerControl("Left Foot X Rotate", -30, 30, 1, 10);
-	controls[RIGHT_UPPER_LEG_X_ROTATE] = ModelerControl("Left Upper Leg X Rotate", 0, 45, 1, 30);
-	controls[RIGHT_UPPER_LEG_Y_ROTATE] = ModelerControl("Left Upper Leg Y Rotate", -20, 20, 1, 15);
-	controls[RIGHT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Left Middle Leg X Rotate", 0, 90, 1, 60);
-	controls[RIGHT_LOWER_LEG_X_ROTATE] = ModelerControl("Left Lower Leg X Rotate", 0, 60, 1, 40);
-	controls[RIGHT_FOOT_X_ROTATE] = ModelerControl("Left Foot X Rotate", -30, 30, 1, 10);
+	controls[RIGHT_UPPER_LEG_X_ROTATE] = ModelerControl("Right Upper Leg X Rotate", 0, 45, 1, 30);
+	controls[RIGHT_UPPER_LEG_Y_ROTATE] = ModelerControl("Right Upper Leg Y Rotate", -20, 20, 1, 15);
+	controls[RIGHT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Right Middle Leg X Rotate", 0, 90, 1, 60);
+	controls[RIGHT_LOWER_LEG_X_ROTATE] = ModelerControl("Right Lower Leg X Rotate", 0, 60, 1, 40);
+	controls[RIGHT_FOOT_X_ROTATE] = ModelerControl("Right Foot X Rotate", -30, 30, 1, 10);
 	controls[LIGHT_TEST] = ModelerControl("Light Test", -30, 30, 1, 0);
 
 	ModelerApplication::Instance()->Init(&createBastionModel, controls, NUMCONTROLS);
