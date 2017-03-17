@@ -55,33 +55,6 @@ void BastionModel::draw()
 	glPopMatrix();
 */
 
-	if (VAL(ANIMATE))
-	{
-		lshoulderx = 90;
-		llowerarmx = 90;
-		lwristy = -90;
-		if (lupperarmy >= 30)
-			posdeg = false;
-		else if (lupperarmy <= -30)
-			posdeg = true;
-		posdeg ? lupperarmy++ : lupperarmy--;
-	}
-	else
-	{
-		lshoulderx = VAL(LEFT_SHOULDER_X_ROTATE);
-		lupperarmy = VAL(LEFT_UPPER_ARM_Y_ROTATE);
-		llowerarmx = VAL(LEFT_LOWER_ARM_X_ROTATE);
-		lwristy = VAL(WRIST_Y_ROTATE);
-	}
-
-	//if (VAL(DETAILS) <= 2) {
-	//	// hide finger controls
-
-	//}
-	//else {
-	//	// show
-	//}
-	
 	if (VAL(MOOD) == 1) {
 		reset();
 		SET(LOWER_BODY_ROTATE, -31);
@@ -155,6 +128,25 @@ void BastionModel::draw()
 		SET(LEFT_FOOT_X_ROTATE, 25);
 		SET(RIGHT_UPPER_LEG_X_ROTATE, 45);
 		SET(RIGHT_FOOT_X_ROTATE, 15);
+	}
+
+	if (VAL(ANIMATE))
+	{
+		lshoulderx = 90;
+		llowerarmx = 90;
+		lwristy = -90;
+		if (lupperarmy >= 30)
+			posdeg = false;
+		else if (lupperarmy <= -30)
+			posdeg = true;
+		posdeg ? lupperarmy++ : lupperarmy--;
+	}
+	else
+	{
+		lshoulderx = VAL(LEFT_SHOULDER_X_ROTATE);
+		lupperarmy = VAL(LEFT_UPPER_ARM_Y_ROTATE);
+		llowerarmx = VAL(LEFT_LOWER_ARM_X_ROTATE);
+		lwristy = VAL(WRIST_Y_ROTATE);
 	}
 	
 
