@@ -85,12 +85,20 @@ void BastionModel::draw()
 		glPushMatrix();
 		glRotated(VAL(UPPER_BODY_ROTATE), 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0, 0); // x' = x, y' = -z, z' = y
-		drawCylinder(0.2, 0.75, 0.75);
-		glTranslated(0, 0, 0.2);
-		drawCylinder(1, 0.5, 0.5);
-		glTranslated(0, 0, 0.25);
-		drawTorus(0.1, 0.35, 200, 100, 0);
-		glTranslated(0, 0, -0.25);
+		if (VAL(DETAILS) >= 3) {
+			drawCylinder(0.2, 0.75, 0.75);
+			glTranslated(0, 0, 0.2);
+			drawCylinder(1, 0.5, 0.5);
+		}
+		else {
+			drawCylinder(1.2, 0.5, 0.5);
+			glTranslated(0, 0, 0.2);
+		}
+		if (VAL(DETAILS) >= 4) {
+			glTranslated(0, 0, 0.25);
+			drawTorus(0.1, 0.35, 200, 100, 0);
+			glTranslated(0, 0, -0.25);
+		}
 
 		// return to origin, reset axis
 		glRotated(90, 1.0, 0, 0);
@@ -99,47 +107,54 @@ void BastionModel::draw()
 		// draw body (beige)
 		setAmbientColor(.1f, .1f, .1f);
 		setDiffuseColor(COLOR_BEIGE);
-		// front
-		drawTriangle(-1, 4, -0.5, -1, 4, 1.5, 1, 4, -0.5);
-		drawTriangle(-1, 4, 1.5, 1, 4, 1.5, 1, 4, -0.5);
-		drawTriangle(1, 4, 1.5, -1, 4, 1.5, 0.75, 3.25, 2.5);
-		drawTriangle(0.75, 3.25, 2.5, -1, 4, 1.5, -0.75, 3.25, 2.5);
-		drawTriangle(0.75, 3.25, 2.5, -0.75, 3.25, 2.5, 0.75, 2.75, 2.25);
-		drawTriangle(-0.75, 3.25, 2.5, -0.75, 2.75, 2.25, 0.75, 2.75, 2.25);
-		// right side
-		drawTriangle(-1, 2.75, 1.75, -0.75, 2.75, 2.25, -0.75, 3.25, 2.5);
-		drawTriangle(-0.75, 3.25, 2.5, -1, 4, 1.5, -1, 2.75, 1.75);
-		drawTriangle(-1, 4, 1.5, -1, 3, 0.5, -1, 2.75, 1.75);
-		drawTriangle(-1, 2.75, 1.75, -1, 3, 0.5, -1, 2.5, 1.25);
-		drawTriangle(-1, 3, 0.5, -1, 4, 1.5, -1, 4, 0.5);
-		// left side
-		drawTriangle(1, 2.75, 1.75, 0.75, 3.25, 2.5, 0.75, 2.75, 2.25);
-		drawTriangle(0.75, 3.25, 2.5, 1, 2.75, 1.75, 1, 4, 1.5);
-		drawTriangle(1, 4, 1.5, 1, 2.75, 1.75, 1, 3, 0.5);
-		drawTriangle(1, 2.75, 1.75, 1, 2.5, 1.25, 1, 3, 0.5);
-		drawTriangle(1, 3, 0.5, 1, 4, 0.5, 1, 4, 1.5);
-		// bottom
-		drawTriangle(-0.75, 2.75, 2.25, -1, 2.75, 1.75, 1, 2.75, 1.75);
-		drawTriangle(-0.75, 2.75, 2.25, 1, 2.75, 1.75, 0.75, 2.75, 2.25);
-		drawTriangle(-1, 2.75, 1.75, 1, 2.5, 1.25, 1, 2.75, 1.75);
-		drawTriangle(-1, 2.75, 1.75, -1, 2.5, 1.25, 1, 2.5, 1.25);
-		drawTriangle(-1, 2.5, 1.25, 1, 3, 0.5, 1, 2.5, 1.25);
-		drawTriangle(-1, 2.5, 1.25, -1, 3, 0.5, 1, 3, 0.5);
-		// gray part
-		setAmbientColor(.1f, .1f, .1f);
-		setDiffuseColor(COLOR_GRAY);
-		// left
-		drawTriangle(-1, 4, -0.5, -1, 3, 0.5, -1, 4, 0.5);
-		drawTriangle(-1, 4, -0.5, -1, 3, -0.5, -1, 3, 0.5);
-		// right
-		drawTriangle(1, 4, 0.5, 1, 3, -0.5, 1, 4, -0.5);
-		drawTriangle(1, 4, 0.5, 1, 3, 0.5, 1, 3, -0.5);
-		// bottom
-		drawTriangle(-1, 3, 0.5, -1, 3, -0.5, 1, 3, -0.5);
-		drawTriangle(-1, 3, 0.5, 1, 3, -0.5, 1, 3, 0.5);
-		// back
-		drawTriangle(1, 4, -0.5, -1, 3, -0.5, -1, 4, -0.5);
-		drawTriangle(1, 4, -0.5, 1, 3, -0.5, -1, 3, -0.5);
+		if (VAL(DETAILS) < 4) {
+			glTranslated(-1, 2.5, -0.75);
+			drawBox(2, 1.5, 3);
+			glTranslated(1, -2.5, 0.75);
+		}
+		else {
+			// front
+			drawTriangle(-1, 4, -0.5, -1, 4, 1.5, 1, 4, -0.5);
+			drawTriangle(-1, 4, 1.5, 1, 4, 1.5, 1, 4, -0.5);
+			drawTriangle(1, 4, 1.5, -1, 4, 1.5, 0.75, 3.25, 2.5);
+			drawTriangle(0.75, 3.25, 2.5, -1, 4, 1.5, -0.75, 3.25, 2.5);
+			drawTriangle(0.75, 3.25, 2.5, -0.75, 3.25, 2.5, 0.75, 2.75, 2.25);
+			drawTriangle(-0.75, 3.25, 2.5, -0.75, 2.75, 2.25, 0.75, 2.75, 2.25);
+			// right side
+			drawTriangle(-1, 2.75, 1.75, -0.75, 2.75, 2.25, -0.75, 3.25, 2.5);
+			drawTriangle(-0.75, 3.25, 2.5, -1, 4, 1.5, -1, 2.75, 1.75);
+			drawTriangle(-1, 4, 1.5, -1, 3, 0.5, -1, 2.75, 1.75);
+			drawTriangle(-1, 2.75, 1.75, -1, 3, 0.5, -1, 2.5, 1.25);
+			drawTriangle(-1, 3, 0.5, -1, 4, 1.5, -1, 4, 0.5);
+			// left side
+			drawTriangle(1, 2.75, 1.75, 0.75, 3.25, 2.5, 0.75, 2.75, 2.25);
+			drawTriangle(0.75, 3.25, 2.5, 1, 2.75, 1.75, 1, 4, 1.5);
+			drawTriangle(1, 4, 1.5, 1, 2.75, 1.75, 1, 3, 0.5);
+			drawTriangle(1, 2.75, 1.75, 1, 2.5, 1.25, 1, 3, 0.5);
+			drawTriangle(1, 3, 0.5, 1, 4, 0.5, 1, 4, 1.5);
+			// bottom
+			drawTriangle(-0.75, 2.75, 2.25, -1, 2.75, 1.75, 1, 2.75, 1.75);
+			drawTriangle(-0.75, 2.75, 2.25, 1, 2.75, 1.75, 0.75, 2.75, 2.25);
+			drawTriangle(-1, 2.75, 1.75, 1, 2.5, 1.25, 1, 2.75, 1.75);
+			drawTriangle(-1, 2.75, 1.75, -1, 2.5, 1.25, 1, 2.5, 1.25);
+			drawTriangle(-1, 2.5, 1.25, 1, 3, 0.5, 1, 2.5, 1.25);
+			drawTriangle(-1, 2.5, 1.25, -1, 3, 0.5, 1, 3, 0.5);
+			// gray part
+			setAmbientColor(.1f, .1f, .1f);
+			setDiffuseColor(COLOR_GRAY);
+			// left
+			drawTriangle(-1, 4, -0.5, -1, 3, 0.5, -1, 4, 0.5);
+			drawTriangle(-1, 4, -0.5, -1, 3, -0.5, -1, 3, 0.5);
+			// right
+			drawTriangle(1, 4, 0.5, 1, 3, -0.5, 1, 4, -0.5);
+			drawTriangle(1, 4, 0.5, 1, 3, 0.5, 1, 3, -0.5);
+			// bottom
+			drawTriangle(-1, 3, 0.5, -1, 3, -0.5, 1, 3, -0.5);
+			drawTriangle(-1, 3, 0.5, 1, 3, -0.5, 1, 3, 0.5);
+			// back
+			drawTriangle(1, 4, -0.5, -1, 3, -0.5, -1, 4, -0.5);
+			drawTriangle(1, 4, -0.5, 1, 3, -0.5, -1, 3, -0.5);
+		}
 
 
 			// draw neck
@@ -160,13 +175,14 @@ void BastionModel::draw()
 			glTranslated(-0.5, 0, -0.5);
 			drawBox(1, 1, 1);
 
-			// draw eye
-			setAmbientColor(.1f, .1f, .1f);
-			setDiffuseColor(COLOR_CYAN);
-			glScaled(0.25, 0.6, 0.2);
-			glTranslated(1.5, 0.5, 5);
-			drawBox(1, 1, 1);
-			glPopMatrix();
+			if (VAL(DETAILS) > 4) {
+				// draw eye
+				setAmbientColor(.1f, .1f, .1f);
+				setDiffuseColor(COLOR_CYAN);
+				glTranslated(1.5*0.25, 0.5*0.6, 5*0.2);
+				drawBox(.25, .6, .1);
+			}
+				glPopMatrix();
 
 
 
@@ -184,17 +200,21 @@ void BastionModel::draw()
 			glTranslated(0, 0, 0.75);
 			drawCylinder(2.5, 0.6, 0.6);
 
-			// draw back turret muzzle
-			glTranslated(0, 0, 2.5);
-			drawCylinder(0.2, 0.7, 0.7);
-
-			glTranslated(0, 0, 0.2);
-			for (int i = 0; i < NUM_OF_BTMUZZLE; i++)
-			{
-				glTranslated(0, 0.45, 0);
-				drawCylinder(0.2, 0.15, 0.15);
-				glTranslated(0, -0.45, 0);
-				glRotated(360 / NUM_OF_BTMUZZLE, 0.0, 0.0, 1.0);
+			if (VAL(DETAILS) > 2) {
+				// draw back turret muzzle
+				glTranslated(0, 0, 2.5);
+				
+				drawCylinder(0.2, 0.7, 0.7);
+				if (VAL(DETAILS) > 3) {
+					glTranslated(0, 0, 0.2);
+					for (int i = 0; i < NUM_OF_BTMUZZLE; i++)
+					{
+						glTranslated(0, 0.45, 0);
+						drawCylinder(0.2, 0.15, 0.15);
+						glTranslated(0, -0.45, 0);
+						glRotated(360 / NUM_OF_BTMUZZLE, 0.0, 0.0, 1.0);
+					}
+				}
 			}
 
 			glPopMatrix();
@@ -258,11 +278,13 @@ void BastionModel::draw()
 
 					glTranslated(0.25, -1.5, 0.25);
 					glRotated(llowerarmy, 0, 1.0, 0);
-					glTranslated(-0.275, 0, 0);
-					glRotated(90, 0, 1.0, 0);
-					drawCylinder(.55, .275, .275);
-					glRotated(-90, 0, 1.0, 0);
-					glTranslated(0.275, 0, 0);
+					if (VAL(DETAILS) > 1) {
+						glTranslated(-0.275, 0, 0);
+						glRotated(90, 0, 1.0, 0);
+						drawCylinder(.55, .275, .275);
+						glRotated(-90, 0, 1.0, 0);
+						glTranslated(0.275, 0, 0);
+					}
 					glRotated(llowerarmx, -1.0, 0, 0);
 					glTranslated(-0.25, 0, -0.25);
 
@@ -285,31 +307,62 @@ void BastionModel::draw()
 						glTranslated(-0.125, 0, -0.25);
 
 						drawBox(0.25, -0.5, 0.5);
+						if(VAL(DETAILS) > 1) {
 							// draw thumb
 							// proximal phalanx
 							glPushMatrix();
 							glTranslated(0.1, -0.1, 0.6);
-							drawSphere(0.075);
+							if(VAL(DETAILS)>4)
+								drawSphere(0.075);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
 							glRotated(VAL(THUMB_PROXIMAL_ROTATE), -1.0, 0, 0);
 							glRotated(30, 0, 0, 1.0);
-							drawCylinder(0.175, 0.075, 0.075);
+							if (VAL(DETAILS) > 3) {
+								drawCylinder(0.175, 0.075, 0.075);
+							}
+							else if (VAL(DETAILS) > 2) {
+								glTranslated(-0.075, -0.075, 0);
+								drawBox(0.15, 0.15, 0.175);
+								glTranslated(0.075, 0.075, 0);
+							}
+							else {
+								glTranslated(-0.075, -0.075, 0);
+								drawBox(0.15, 0.15, 0.475);
+								glTranslated(0.075, 0.075, 0);
+							}
 								// middle phalanx
 								glPushMatrix();
 								glTranslated(0, 0, 0.2);
-								drawSphere(0.075);
+								if (VAL(DETAILS)>4)
+									drawSphere(0.075);
 								glRotated(VAL(THUMB_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
-								drawCylinder(0.15, 0.075, 0.07);
+								if (VAL(DETAILS) > 3) {
+									drawCylinder(0.15, 0.075, 0.07);
+								}
+								else if (VAL(DETAILS) > 2) {
+									glTranslated(-0.07, -0.07, 0);
+									drawBox(0.14, 0.14, 0.15);
+									glTranslated(0.07, 0.07, 0);
+								}
 									// distal phalanx
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
-									drawSphere(0.07);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.07);
 									glRotated(VAL(THUMB_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
-									drawCylinder(0.1, 0.07, 0.065);
+									if (VAL(DETAILS) > 3) {
+										drawCylinder(0.1, 0.07, 0.065);
+									}
+									else if (VAL(DETAILS) > 2) {
+										glTranslated(-0.065, -0.065, 0);
+										drawBox(0.13, 0.13, 0.1);
+										glTranslated(0.065, 0.065, 0);
+									}
 									glTranslated(0, 0, 0.1);
-									drawSphere(0.065);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.065);
 									glPopMatrix();
 								glPopMatrix();
 							glPopMatrix();
@@ -318,27 +371,57 @@ void BastionModel::draw()
 							// proximal
 							glPushMatrix();
 							glTranslated(0.1, -0.525, 0.44);
-							drawSphere(0.06);
+							if (VAL(DETAILS)>4)
+								drawSphere(0.06);
 							glRotated(VAL(INDEX_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.025, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
-							drawCylinder(0.15, 0.06, 0.06);
+							if (VAL(DETAILS) > 3) {
+								drawCylinder(0.15, 0.06, 0.06);
+							}
+							else if (VAL(DETAILS) > 2) {
+								glTranslated(-0.06, -0.06, 0);
+								drawBox(0.12, 0.12, 0.15);
+								glTranslated(0.06, 0.06, 0);
+							}
+							else {
+								glTranslated(-0.06, -0.06, 0);
+								drawBox(0.12, 0.12, 0.45);
+								glTranslated(0.06, 0.06, 0);
+							}
 								// middle
 								glPushMatrix();
 								glTranslated(0, 0, 0.175);
-								drawSphere(0.06);
+								if (VAL(DETAILS)>4)
+									drawSphere(0.06);
 								glRotated(VAL(INDEX_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
-								drawCylinder(0.15, 0.06, 0.05);
+								if (VAL(DETAILS) > 3) {
+									drawCylinder(0.15, 0.06, 0.05);
+								}
+								else if (VAL(DETAILS) > 2) {
+									glTranslated(-0.05, -0.05, 0);
+									drawBox(0.1, 0.1, 0.15);
+									glTranslated(0.05, 0.05, 0);
+								}
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
-									drawSphere(0.05);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.05);
 									glRotated(VAL(INDEX_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
-									drawCylinder(0.1, 0.05, 0.04);
+									if (VAL(DETAILS) > 3) {
+										drawCylinder(0.1, 0.05, 0.04);
+									}
+									else if (VAL(DETAILS) > 2) {
+										glTranslated(-0.04, -0.04, 0);
+										drawBox(0.08, 0.08, 0.1);
+										glTranslated(0.04, 0.04, 0);
+									}
 									glTranslated(0, 0, 0.1);
-									drawSphere(0.04);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.04);
 									glPopMatrix();
 								glPopMatrix();
 							glPopMatrix();
@@ -346,27 +429,57 @@ void BastionModel::draw()
 							// proximal
 							glPushMatrix();
 							glTranslated(0.1, -0.525, 0.3);
-							drawSphere(0.06);
+							if (VAL(DETAILS)>4)
+								drawSphere(0.06);
 							glRotated(VAL(MIDDLE_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.025, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
-							drawCylinder(0.2, 0.06, 0.06);
+							if (VAL(DETAILS) > 3) {
+								drawCylinder(0.2, 0.06, 0.06);
+							}
+							else if (VAL(DETAILS) > 2) {
+								glTranslated(-0.06, -0.06, 0);
+								drawBox(0.12, 0.12, 0.2);
+								glTranslated(0.06, 0.06, 0);
+							}
+							else {
+								glTranslated(-0.06, -0.06, 0);
+								drawBox(0.12, 0.12, 0.5);
+								glTranslated(0.06, 0.06, 0);
+							}
 								// middle
 								glPushMatrix();
 								glTranslated(0, 0, 0.225);
-								drawSphere(0.06);
+								if (VAL(DETAILS)>4)
+									drawSphere(0.06);
 								glRotated(VAL(MIDDLE_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
-								drawCylinder(0.15, 0.06, 0.05);
+								if (VAL(DETAILS) > 3) {
+									drawCylinder(0.15, 0.06, 0.05);
+								}
+								else if (VAL(DETAILS) > 2) {
+									glTranslated(-0.05, -0.05, 0);
+									drawBox(0.1, 0.1, 0.15);
+									glTranslated(0.05, 0.05, 0);
+								}
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
-									drawSphere(0.05);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.05);
 									glRotated(VAL(MIDDLE_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
-									drawCylinder(0.1, 0.05, 0.04);
+									if (VAL(DETAILS) > 3) {
+										drawCylinder(0.1, 0.05, 0.04);
+									}
+									else if (VAL(DETAILS) > 2) {
+										glTranslated(-0.04, -0.04, 0);
+										drawBox(0.08, 0.08, 0.1);
+										glTranslated(0.04, 0.04, 0);
+									}
 									glTranslated(0, 0, 0.1);
-									drawSphere(0.04);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.04);
 									glPopMatrix();
 								glPopMatrix();
 							glPopMatrix();
@@ -374,27 +487,57 @@ void BastionModel::draw()
 							// proximal
 							glPushMatrix();
 							glTranslated(0.1, -0.525, 0.16);
-							drawSphere(0.06);
+							if (VAL(DETAILS)>4)
+								drawSphere(0.06);
 							glRotated(VAL(RING_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.025, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
-							drawCylinder(0.15, 0.06, 0.06);
+							if (VAL(DETAILS) > 3) {
+								drawCylinder(0.15, 0.06, 0.06);
+							}
+							else if (VAL(DETAILS) > 2) {
+								glTranslated(-0.06, -0.06, 0);
+								drawBox(0.12, 0.12, 0.15);
+								glTranslated(0.06, 0.06, 0);
+							}
+							else {
+								glTranslated(-0.06, -0.06, 0);
+								drawBox(0.12, 0.12, 0.45);
+								glTranslated(0.06, 0.06, 0);
+							}
 								// middle
 								glPushMatrix();
 								glTranslated(0, 0, 0.175);
-								drawSphere(0.06);
+								if (VAL(DETAILS)>4)
+									drawSphere(0.06);
 								glRotated(VAL(RING_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.025);
-								drawCylinder(0.15, 0.06, 0.05);
+								if (VAL(DETAILS) > 3) {
+									drawCylinder(0.15, 0.06, 0.05);
+								}
+								else if (VAL(DETAILS) > 2) {
+									glTranslated(-0.05, -0.05, 0);
+									drawBox(0.1, 0.1, 0.15);
+									glTranslated(0.05, 0.05, 0);
+								}
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.175);
-									drawSphere(0.05);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.05);
 									glRotated(VAL(RING_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.025);
-									drawCylinder(0.1, 0.05, 0.04);
+									if (VAL(DETAILS) > 3) {
+										drawCylinder(0.1, 0.05, 0.04);
+									}
+									else if (VAL(DETAILS) > 2) {
+										glTranslated(-0.04, -0.04, 0);
+										drawBox(0.08, 0.08, 0.1);
+										glTranslated(0.04, 0.04, 0);
+									}
 									glTranslated(0, 0, 0.1);
-									drawSphere(0.04);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.04);
 									glPopMatrix();
 								glPopMatrix();
 							glPopMatrix();
@@ -402,34 +545,65 @@ void BastionModel::draw()
 							// proximal
 							glPushMatrix();
 							glTranslated(0.1, -0.52, 0.04);
-							drawSphere(0.04);
+							if (VAL(DETAILS)>4)
+								drawSphere(0.04);
 							glRotated(VAL(PINKY_PROXIMAL_ROTATE), 0, 0, -1.0);
 							glTranslated(0, -0.02, 0);
 							glRotated(90, 1.0, 0, 0); // x' = x, y' = z, z' = -y
-							drawCylinder(0.1, 0.04, 0.04);
+							if (VAL(DETAILS) > 3) {
+								drawCylinder(0.1, 0.04, 0.04);
+							}
+							else if (VAL(DETAILS) > 2) { 
+								glTranslated(-0.04, -0.04, 0);
+								drawBox(0.08, 0.08, 0.1);
+								glTranslated(0.04, 0.04, 0);
+							}
+							else {
+								glTranslated(-0.04, -0.04, 0);
+								drawBox(0.08, 0.08, 0.33);
+								glTranslated(0.04, 0.04, 0);
+							}
 								// middle
 								glPushMatrix();
 								glTranslated(0, 0, 0.115);
-								drawSphere(0.04);
+								if (VAL(DETAILS)>4)
+									drawSphere(0.04);
 								glRotated(VAL(PINKY_MIDDLE_ROTATE), 0, -1.0, 0);
 								glTranslated(0, 0, 0.015);
-								drawCylinder(0.1, 0.04, 0.03);
+								if (VAL(DETAILS) > 3) {
+									drawCylinder(0.1, 0.04, 0.03);
+								}
+								else if (VAL(DETAILS) > 2) {
+									glTranslated(-0.03, -0.03, 0);
+									drawBox(0.06, 0.06, 0.1);
+									glTranslated(0.03, 0.03, 0);
+								}
 									// distal
 									glPushMatrix();
 									glTranslated(0, 0, 0.115);
-									drawSphere(0.03);
+									if (VAL(DETAILS)>4)
+										drawSphere(0.03);
 									glRotated(VAL(PINKY_DISTAL_ROTATE), 0, -1.0, 0);
 									glTranslated(0, 0, 0.015);
-									drawCylinder(0.1, 0.03, 0.02);
+									if (VAL(DETAILS) > 3) {
+										drawCylinder(0.1, 0.03, 0.02);
+									}
+									else if (VAL(DETAILS) > 2) {
+										glTranslated(-0.02, -0.02, 0);
+										drawBox(0.04, 0.04, 0.1);
+										glTranslated(0.02, 0.02, 0);
+									}
 									glTranslated(0, 0, 0.1);
-									drawSphere(0.02);
-									glPopMatrix();
-								glPopMatrix();
-							glPopMatrix();
-						glPopMatrix();
-					glPopMatrix();
-				glPopMatrix();
-			glPopMatrix();
+									if (VAL(DETAILS)>4)
+										drawSphere(0.02);
+									glPopMatrix();// pinky distal
+								glPopMatrix(); // pinky middle
+							glPopMatrix(); // pinky proximal
+						}
+						glPopMatrix(); // hand
+					glPopMatrix(); // left lower arm
+				glPopMatrix(); // left upper arm
+			glPopMatrix(); // left shoulder
 
 			// draw right limb
 			// draw right shoulders (movable & shoulder plates)
@@ -487,7 +661,8 @@ void BastionModel::draw()
 				setAmbientColor(.1f, .1f, .1f);
 				setDiffuseColor(COLOR_GRAY);
 				glTranslated(0, 0, 0.25);
-				drawSphere(.25);
+				if (VAL(DETAILS) > 1)
+					drawSphere(.25);
 				glRotated(VAL(GUN_X_ROTATE), 1.0, 0, 0);
 				glRotated(VAL(GUN_Y_ROTATE), 0, 1.0, 0);
 				glRotated(VAL(GUN_Z_ROTATE), 0, 0, 1.0);
@@ -512,7 +687,12 @@ void BastionModel::draw()
 					
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_GRAY);
-					drawCylinder(.1, .1, .15);
+					if (VAL(DETAILS) > 3) {
+						drawCylinder(.1, .1, .15);
+					}
+					else {
+						drawCylinder(.1, .15, .15);
+					}
 					glTranslated(0, 0, .1);
 					drawCylinder(.6, .15, .15);
 					glTranslated(0, 0, .6);
@@ -521,14 +701,24 @@ void BastionModel::draw()
 					setDiffuseColor(COLOR_METAL);
 					drawCylinder(.2, .15, .15);
 					glTranslated(0, 0, .2);
-					drawCylinder(.1, .15, .125);
+					if (VAL(DETAILS) > 3) {
+						drawCylinder(.1, .15, .125);
+					}
+					else {
+						drawCylinder(.1, .15, .15);
+					}
 					glTranslated(0, 0, .1);
 
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_GRAY);
 					drawCylinder(0.3, .1, .1);
 					glTranslated(0, 0, .3);
-					drawCylinder(.05, .1, .125);
+					if (VAL(DETAILS) > 3) {
+						drawCylinder(.05, .1, .125);
+					}
+					else {
+						drawCylinder(.05, .125, .125);
+					}
 					glTranslated(0, 0, .05);
 					drawCylinder(.3, .125, .125);
 					glTranslated(0, 0.25, -3.1);
@@ -536,145 +726,177 @@ void BastionModel::draw()
 
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_OLIVE);
-					// left (olive) outside
-					drawTriangle(-0.3, 0.05, 0,		-0.3, -0.25, 0,		-0.3, -0.25, 0.25);
-					drawTriangle(-0.3, 0.05, 0.5,	-0.3, 0.05, 0,		-0.3, -0.25, 0.25);
-					drawTriangle(-0.3, 0.05, 0.5,	-0.3, -0.25, 0.25,	-0.3, -0.25, 0.65);
-					drawTriangle(-0.3, -0.25, 0.65, -0.3, -0.25, 0.25,	-0.3, -0.55, 0.65);
-					drawTriangle(-0.3, -0.25, 0.65, -0.3, -0.55, 0.65,	-0.3, -0.25, 0.9);
-					drawTriangle(-0.3, -0.25, 0.9,	-0.3, -0.55, 0.65,	-0.3, -0.45, 1.15);
-					drawTriangle(-0.3, -0.45, 1.15, -0.3, -0.55, 0.65,	-0.3, -0.55, 1.15);
-					// inside
-					drawTriangle(-0.25, 0.05, 0,		-0.25, -0.25, 0.25, -0.25, -0.25, 0);
-					drawTriangle(-0.25, 0.05, 0.5,		-0.25, -0.25, 0.25, -0.25, 0.05, 0);
-					drawTriangle(-0.25, 0.05, 0.5,		-0.25, -0.25, 0.65, -0.25, -0.25, 0.25);
-					drawTriangle(-0.25, -0.25, 0.65,	-0.25, -0.55, 0.65, -0.25, -0.25, 0.25);
-					drawTriangle(-0.25, -0.25, 0.65,	-0.25, -0.25, 0.9,	-0.25, -0.55, 0.65);
-					drawTriangle(-0.25, -0.25, 0.9,		-0.25, -0.45, 1.15, -0.25, -0.55, 0.65);
-					drawTriangle(-0.25, -0.45, 1.15,	-0.25, -0.55, 1.15, -0.25, -0.55, 0.65);
-					// sides
-					drawTriangle(-0.3, 0.05, 0,			-0.3, 0.05, 0.5,	-0.25, 0.05, 0);
-					drawTriangle(-0.25, 0.05, 0,		-0.3, 0.05, 0.5,	-0.25, 0.05, 0.5);
-					drawTriangle(-0.25, 0.05, 0.5,		-0.3, 0.05, 0.5,	-0.3, -0.25, 0.65);
-					drawTriangle(-0.25, 0.05, 0.5,		-0.3, -0.25, 0.65,	-0.25, -0.25, 0.65);
-					drawTriangle(-0.25, -0.25, 0.65,	-0.3, -0.25, 0.65,	-0.3, -0.25, 0.9);
-					drawTriangle(-0.25, -0.25, 0.65,	-0.3, -0.25, 0.9,	-0.25, -0.25, 0.9);
-					drawTriangle(-0.25, -0.25, 0.9,		-0.3, -0.25, 0.9,	-0.3, -0.45, 1.15);
-					drawTriangle(-0.25, -0.25, 0.9,		-0.3, -0.45, 1.15,	-0.25, -0.45, 1.15);
-					drawTriangle(-0.25, -0.45, 1.15,	-0.3, -0.45, 1.15,	-0.3, -0.55, 1.15);
-					drawTriangle(-0.25, -0.45, 1.15,	-0.3, -0.55, 1.15,	-0.25, -0.55, 1.15);
-					drawTriangle(-0.25, -0.55, 1.15,	-0.3, -0.55, 1.15,	-0.3, -0.55, 0.65);
-					drawTriangle(-0.25, -0.55, 1.15,	-0.3, -0.55, 0.65,	-0.25, -0.55, 0.65);
-					drawTriangle(-0.25, -0.55, 0.65,	-0.3, -0.55, 0.65,	-0.3, -0.25, 0.25);
-					drawTriangle(-0.25, -0.55, 0.65,	-0.3, -0.25, 0.25,	-0.25, -0.25, 0.25);
-					drawTriangle(-0.25, -0.25, 0.25,	-0.3, -0.25, 0.25,	-0.3, -0.25, 0);
-					drawTriangle(-0.25, -0.25, 0.25,	-0.3, -0.25, 0,		-0.25, -0.25, 0);
-					drawTriangle(-0.25, -0.25, 0,		-0.3, -0.25, 0,		-0.3, 0.05, 0);
-					drawTriangle(-0.25, -0.25, 0,		-0.3, 0.05, 0,		-0.25, 0.05, 0);
+					if (VAL(DETAILS) > 4) {
+						// left (olive) outside
+						drawTriangle(-0.3, 0.05, 0, -0.3, -0.25, 0, -0.3, -0.25, 0.25);
+						drawTriangle(-0.3, 0.05, 0.5, -0.3, 0.05, 0, -0.3, -0.25, 0.25);
+						drawTriangle(-0.3, 0.05, 0.5, -0.3, -0.25, 0.25, -0.3, -0.25, 0.65);
+						drawTriangle(-0.3, -0.25, 0.65, -0.3, -0.25, 0.25, -0.3, -0.55, 0.65);
+						drawTriangle(-0.3, -0.25, 0.65, -0.3, -0.55, 0.65, -0.3, -0.25, 0.9);
+						drawTriangle(-0.3, -0.25, 0.9, -0.3, -0.55, 0.65, -0.3, -0.45, 1.15);
+						drawTriangle(-0.3, -0.45, 1.15, -0.3, -0.55, 0.65, -0.3, -0.55, 1.15);
+						// inside
+						drawTriangle(-0.25, 0.05, 0, -0.25, -0.25, 0.25, -0.25, -0.25, 0);
+						drawTriangle(-0.25, 0.05, 0.5, -0.25, -0.25, 0.25, -0.25, 0.05, 0);
+						drawTriangle(-0.25, 0.05, 0.5, -0.25, -0.25, 0.65, -0.25, -0.25, 0.25);
+						drawTriangle(-0.25, -0.25, 0.65, -0.25, -0.55, 0.65, -0.25, -0.25, 0.25);
+						drawTriangle(-0.25, -0.25, 0.65, -0.25, -0.25, 0.9, -0.25, -0.55, 0.65);
+						drawTriangle(-0.25, -0.25, 0.9, -0.25, -0.45, 1.15, -0.25, -0.55, 0.65);
+						drawTriangle(-0.25, -0.45, 1.15, -0.25, -0.55, 1.15, -0.25, -0.55, 0.65);
+						// sides
+						drawTriangle(-0.3, 0.05, 0, -0.3, 0.05, 0.5, -0.25, 0.05, 0);
+						drawTriangle(-0.25, 0.05, 0, -0.3, 0.05, 0.5, -0.25, 0.05, 0.5);
+						drawTriangle(-0.25, 0.05, 0.5, -0.3, 0.05, 0.5, -0.3, -0.25, 0.65);
+						drawTriangle(-0.25, 0.05, 0.5, -0.3, -0.25, 0.65, -0.25, -0.25, 0.65);
+						drawTriangle(-0.25, -0.25, 0.65, -0.3, -0.25, 0.65, -0.3, -0.25, 0.9);
+						drawTriangle(-0.25, -0.25, 0.65, -0.3, -0.25, 0.9, -0.25, -0.25, 0.9);
+						drawTriangle(-0.25, -0.25, 0.9, -0.3, -0.25, 0.9, -0.3, -0.45, 1.15);
+						drawTriangle(-0.25, -0.25, 0.9, -0.3, -0.45, 1.15, -0.25, -0.45, 1.15);
+						drawTriangle(-0.25, -0.45, 1.15, -0.3, -0.45, 1.15, -0.3, -0.55, 1.15);
+						drawTriangle(-0.25, -0.45, 1.15, -0.3, -0.55, 1.15, -0.25, -0.55, 1.15);
+						drawTriangle(-0.25, -0.55, 1.15, -0.3, -0.55, 1.15, -0.3, -0.55, 0.65);
+						drawTriangle(-0.25, -0.55, 1.15, -0.3, -0.55, 0.65, -0.25, -0.55, 0.65);
+						drawTriangle(-0.25, -0.55, 0.65, -0.3, -0.55, 0.65, -0.3, -0.25, 0.25);
+						drawTriangle(-0.25, -0.55, 0.65, -0.3, -0.25, 0.25, -0.25, -0.25, 0.25);
+						drawTriangle(-0.25, -0.25, 0.25, -0.3, -0.25, 0.25, -0.3, -0.25, 0);
+						drawTriangle(-0.25, -0.25, 0.25, -0.3, -0.25, 0, -0.25, -0.25, 0);
+						drawTriangle(-0.25, -0.25, 0, -0.3, -0.25, 0, -0.3, 0.05, 0);
+						drawTriangle(-0.25, -0.25, 0, -0.3, 0.05, 0, -0.25, 0.05, 0);
 
-					// right (olive) outside
-					drawTriangle(0.3, 0.05, 0,		0.3, -0.25, 0.25,	0.3, -0.25, 0);
-					drawTriangle(0.3, 0.05, 0.5,	0.3, -0.25, 0.25,	0.3, 0.05, 0);
-					drawTriangle(0.3, 0.05, 0.5,	0.3, -0.25, 0.65,	0.3, -0.25, 0.25);
-					drawTriangle(0.3, -0.25, 0.65,	0.3, -0.55, 0.65,	0.3, -0.25, 0.25);
-					drawTriangle(0.3, -0.25, 0.65,	0.3, -0.25, 0.9,	0.3, -0.55, 0.65);
-					drawTriangle(0.3, -0.25, 0.9,	0.3, -0.45, 1.15,	0.3, -0.55, 0.65);
-					drawTriangle(0.3, -0.45, 1.15,	0.3, -0.55, 1.15,	0.3, -0.55, 0.65);
-					// inside
-					drawTriangle(0.25, 0.05, 0,		0.25, -0.25, 0,		0.25, -0.25, 0.25);
-					drawTriangle(0.25, 0.05, 0.5,	0.25, 0.05, 0,		0.25, -0.25, 0.25);
-					drawTriangle(0.25, 0.05, 0.5,	0.25, -0.25,		0.25, 0.25, -0.25, 0.65);
-					drawTriangle(0.25, -0.25, 0.65, 0.25, -0.25,		0.25, 0.25, -0.55, 0.65);
-					drawTriangle(0.25, -0.25, 0.65, 0.25, -0.55, 0.65,	0.25, -0.25, 0.9);
-					drawTriangle(0.25, -0.25, 0.9,	0.25, -0.55, 0.65,	0.25, -0.45, 1.15);
-					drawTriangle(0.25, -0.45, 1.15, 0.25, -0.55, 0.65,	0.25, -0.55, 1.15);
-					// sides
-					drawTriangle(0.3, 0.05, 0,		0.25, 0.05, 0,		0.3, 0.05, 0.5);
-					drawTriangle(0.25, 0.05, 0,		0.25, 0.05, 0.5,	0.3, 0.05, 0.5);
-					drawTriangle(0.25, 0.05, 0.5,	0.3, -0.25, 0.65,	0.3, 0.05, 0.5);
-					drawTriangle(0.25, 0.05, 0.5,	0.25, -0.25, 0.65,	0.3, -0.25, 0.65);
-					drawTriangle(0.25, -0.25, 0.65, 0.3, -0.25, 0.9,	0.3, -0.25, 0.65);
-					drawTriangle(0.25, -0.25, 0.65, 0.25, -0.25, 0.9,	0.3, -0.25, 0.9);
-					drawTriangle(0.25, -0.25, 0.9,	0.3, -0.45, 1.15,	0.3, -0.25, 0.9);
-					drawTriangle(0.25, -0.25, 0.9,	0.25, -0.45, 1.15,	0.3, -0.45, 1.15);
-					drawTriangle(0.25, -0.45, 1.15, 0.3, -0.55, 1.15,	0.3, -0.45, 1.15);
-					drawTriangle(0.25, -0.45, 1.15, 0.25, -0.55, 1.15,	0.3, -0.55, 1.15);
-					drawTriangle(0.25, -0.55, 1.15, 0.3, -0.55, 0.65,	0.3, -0.55, 1.15);
-					drawTriangle(0.25, -0.55, 1.15, 0.25, -0.55, 0.65,	0.3, -0.55, 0.65);
-					drawTriangle(0.25, -0.55, 0.65, 0.3, -0.25, 0.25,	0.3, -0.55, 0.65);
-					drawTriangle(0.25, -0.55, 0.65, 0.25, -0.25, 0.25,	0.3, -0.25, 0.25);
-					drawTriangle(0.25, -0.25, 0.25, 0.3, -0.25, 0,		0.3, -0.25, 0.25);
-					drawTriangle(0.25, -0.25, 0.25, 0.25, -0.25, 0,		0.3, -0.25, 0);
-					drawTriangle(0.25, -0.25, 0,	0.3, 0.05, 0,		0.3, -0.25, 0);
-					drawTriangle(0.25, -0.25, 0,	0.25, 0.05, 0,		0.3, 0.05, 0);
+						// right (olive) outside
+						drawTriangle(0.3, 0.05, 0, 0.3, -0.25, 0.25, 0.3, -0.25, 0);
+						drawTriangle(0.3, 0.05, 0.5, 0.3, -0.25, 0.25, 0.3, 0.05, 0);
+						drawTriangle(0.3, 0.05, 0.5, 0.3, -0.25, 0.65, 0.3, -0.25, 0.25);
+						drawTriangle(0.3, -0.25, 0.65, 0.3, -0.55, 0.65, 0.3, -0.25, 0.25);
+						drawTriangle(0.3, -0.25, 0.65, 0.3, -0.25, 0.9, 0.3, -0.55, 0.65);
+						drawTriangle(0.3, -0.25, 0.9, 0.3, -0.45, 1.15, 0.3, -0.55, 0.65);
+						drawTriangle(0.3, -0.45, 1.15, 0.3, -0.55, 1.15, 0.3, -0.55, 0.65);
+						// inside
+						drawTriangle(0.25, 0.05, 0, 0.25, -0.25, 0, 0.25, -0.25, 0.25);
+						drawTriangle(0.25, 0.05, 0.5, 0.25, 0.05, 0, 0.25, -0.25, 0.25);
+						drawTriangle(0.25, 0.05, 0.5, 0.25, -0.25, 0.25, 0.25, -0.25, 0.65);
+						drawTriangle(0.25, -0.25, 0.65, 0.25, -0.25, 0.25, 0.25, -0.55, 0.65);
+						drawTriangle(0.25, -0.25, 0.65, 0.25, -0.55, 0.65, 0.25, -0.25, 0.9);
+						drawTriangle(0.25, -0.25, 0.9, 0.25, -0.55, 0.65, 0.25, -0.45, 1.15);
+						drawTriangle(0.25, -0.45, 1.15, 0.25, -0.55, 0.65, 0.25, -0.55, 1.15);
+						// sides
+						drawTriangle(0.3, 0.05, 0, 0.25, 0.05, 0, 0.3, 0.05, 0.5);
+						drawTriangle(0.25, 0.05, 0, 0.25, 0.05, 0.5, 0.3, 0.05, 0.5);
+						drawTriangle(0.25, 0.05, 0.5, 0.3, -0.25, 0.65, 0.3, 0.05, 0.5);
+						drawTriangle(0.25, 0.05, 0.5, 0.25, -0.25, 0.65, 0.3, -0.25, 0.65);
+						drawTriangle(0.25, -0.25, 0.65, 0.3, -0.25, 0.9, 0.3, -0.25, 0.65);
+						drawTriangle(0.25, -0.25, 0.65, 0.25, -0.25, 0.9, 0.3, -0.25, 0.9);
+						drawTriangle(0.25, -0.25, 0.9, 0.3, -0.45, 1.15, 0.3, -0.25, 0.9);
+						drawTriangle(0.25, -0.25, 0.9, 0.25, -0.45, 1.15, 0.3, -0.45, 1.15);
+						drawTriangle(0.25, -0.45, 1.15, 0.3, -0.55, 1.15, 0.3, -0.45, 1.15);
+						drawTriangle(0.25, -0.45, 1.15, 0.25, -0.55, 1.15, 0.3, -0.55, 1.15);
+						drawTriangle(0.25, -0.55, 1.15, 0.3, -0.55, 0.65, 0.3, -0.55, 1.15);
+						drawTriangle(0.25, -0.55, 1.15, 0.25, -0.55, 0.65, 0.3, -0.55, 0.65);
+						drawTriangle(0.25, -0.55, 0.65, 0.3, -0.25, 0.25, 0.3, -0.55, 0.65);
+						drawTriangle(0.25, -0.55, 0.65, 0.25, -0.25, 0.25, 0.3, -0.25, 0.25);
+						drawTriangle(0.25, -0.25, 0.25, 0.3, -0.25, 0, 0.3, -0.25, 0.25);
+						drawTriangle(0.25, -0.25, 0.25, 0.25, -0.25, 0, 0.3, -0.25, 0);
+						drawTriangle(0.25, -0.25, 0, 0.3, 0.05, 0, 0.3, -0.25, 0);
+						drawTriangle(0.25, -0.25, 0, 0.25, 0.05, 0, 0.3, 0.05, 0);
+					}
+					else {
+						glRotated(25, 1.0, 0, 0);
+						glTranslated(-0.3, -0.25, 0);
+						drawBox(0.05, 0.3, 1.15);
+						glTranslated(0.3, 0.25, 0);
+						glTranslated(0.25, -0.25, 0);
+						drawBox(0.05, 0.3, 1.15);
+						glTranslated(-0.25, 0.25, 0);
+						glRotated(-25, 1.0, 0, 0);
+					}
 
-					// left black bar
+					
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_GRAY);
-					drawTriangle(-0.2, -0.6, 0.65,		-0.25, -0.65, 0.75,	-0.25, -0.45, 0.75);
-					drawTriangle(-0.2, -0.6, 0.65,		-0.25, -0.45, 0.75,	-0.2, -0.45, 0.65);
-					drawTriangle(-0.2, -0.45, 0.65,		-0.25, -0.45, 0.75,	-0.2, -0.4, 0.75);
-					drawTriangle(-0.2, -0.4, 0.75,		-0.25, -0.45, 0.75,	-0.2, -0.4, 2);
-					drawTriangle(-0.25, -0.45, 0.75,	-0.25, -0.45, 2,	-0.2, -0.4, 2);
-					drawTriangle(-0.25, -0.45, 0.75,	-0.25, -0.65, 2,	-0.25, -0.45, 2);
-					drawTriangle(-0.25, -0.45, 0.75,	-0.25, -0.65, 0.75, -0.25, -0.65, 2);
-					drawTriangle(-0.25, -0.65, 2,		-0.2, -0.4, 2,		-0.25, -0.45, 2);
-					drawTriangle(-0.25, -0.65, 2,		-0.2, -0.65, 2,		-0.2, -0.4, 2);
-					drawTriangle(-0.25, -0.65, 2,		-0.2, -0.65, 0.75,	-0.2, -0.65, 2);
-					drawTriangle(-0.25, -0.65, 2,		-0.25, -0.65, 0.75, -0.2, -0.65, 0.75);
-					drawTriangle(-0.2, -0.65, 0.75,		-0.25, -0.65, 0.75, -0.2, -0.6, 0.65);
-					drawTriangle(-0.2, -0.4, 0.75,		-0.2, -0.4, 2,		-0.2, -0.65, 2);
-					drawTriangle(-0.2, -0.4, 0.75,		-0.2, -0.65, 2,		-0.2, -0.65, 0.75);
-					drawTriangle(-0.2, -0.4, 0.75,		-0.2, -0.65, 0.75,	-0.2, -0.6, 0.65);
-					drawTriangle(-0.2, -0.4, 0.75,		-0.2, -0.6, 0.65,	-0.2, -0.45, 0.65);
+					if (VAL(DETAILS) > 3) {
+						// left black bar
+						drawTriangle(-0.2, -0.6, 0.65, -0.25, -0.65, 0.75, -0.25, -0.45, 0.75);
+						drawTriangle(-0.2, -0.6, 0.65, -0.25, -0.45, 0.75, -0.2, -0.45, 0.65);
+						drawTriangle(-0.2, -0.45, 0.65, -0.25, -0.45, 0.75, -0.2, -0.4, 0.75);
+						drawTriangle(-0.2, -0.4, 0.75, -0.25, -0.45, 0.75, -0.2, -0.4, 2);
+						drawTriangle(-0.25, -0.45, 0.75, -0.25, -0.45, 2, -0.2, -0.4, 2);
+						drawTriangle(-0.25, -0.45, 0.75, -0.25, -0.65, 2, -0.25, -0.45, 2);
+						drawTriangle(-0.25, -0.45, 0.75, -0.25, -0.65, 0.75, -0.25, -0.65, 2);
+						drawTriangle(-0.25, -0.65, 2, -0.2, -0.4, 2, -0.25, -0.45, 2);
+						drawTriangle(-0.25, -0.65, 2, -0.2, -0.65, 2, -0.2, -0.4, 2);
+						drawTriangle(-0.25, -0.65, 2, -0.2, -0.65, 0.75, -0.2, -0.65, 2);
+						drawTriangle(-0.25, -0.65, 2, -0.25, -0.65, 0.75, -0.2, -0.65, 0.75);
+						drawTriangle(-0.2, -0.65, 0.75, -0.25, -0.65, 0.75, -0.2, -0.6, 0.65);
+						drawTriangle(-0.2, -0.4, 0.75, -0.2, -0.4, 2, -0.2, -0.65, 2);
+						drawTriangle(-0.2, -0.4, 0.75, -0.2, -0.65, 2, -0.2, -0.65, 0.75);
+						drawTriangle(-0.2, -0.4, 0.75, -0.2, -0.65, 0.75, -0.2, -0.6, 0.65);
+						drawTriangle(-0.2, -0.4, 0.75, -0.2, -0.6, 0.65, -0.2, -0.45, 0.65);
 
-					// right black bar
-					drawTriangle(0.2, -0.6, 0.65,	0.25, -0.45, 0.75,	0.25, -0.65, 0.75);
-					drawTriangle(0.2, -0.6, 0.65,	0.2, -0.45, 0.65,	0.25, -0.45, 0.75);
-					drawTriangle(0.2, -0.45, 0.65,	0.2, -0.4, 0.75,	0.25, -0.45, 0.75);
-					drawTriangle(0.2, -0.4, 0.75,	0.2, -0.4, 2,		0.25, -0.45, 0.75);
-					drawTriangle(0.25, -0.45, 0.75,	0.2, -0.4, 2,		0.25, -0.45, 2);
-					drawTriangle(0.25, -0.45, 0.75,	0.25, -0.45, 2,		0.25, -0.65, 2);
-					drawTriangle(0.25, -0.45, 0.75,	0.25, -0.65, 2,		0.25, -0.65, 0.75);
-					drawTriangle(0.25, -0.65, 2,	0.25, -0.45, 2,		0.2, -0.4, 2);
-					drawTriangle(0.25, -0.65, 2,	0.2, -0.4, 2,		0.2, -0.65, 2);
-					drawTriangle(0.25, -0.65, 2,	0.2, -0.65, 2,		0.2, -0.65, 0.75);
-					drawTriangle(0.25, -0.65, 2,	0.2, -0.65, 0.75,	0.25, -0.65, 0.75);
-					drawTriangle(0.2, -0.65, 0.75,	0.2, -0.6, 0.65,	0.25, -0.65, 0.75);
-					drawTriangle(0.2, -0.4, 0.75,	0.2, -0.65, 2,		0.2, -0.4, 2);
-					drawTriangle(0.2, -0.4, 0.75,	0.2, -0.65, 0.75,	0.2, -0.65, 2);
-					drawTriangle(0.2, -0.4, 0.75,	0.2, -0.6, 0.65,	0.2, -0.65, 0.75);
-					drawTriangle(0.2, -0.4, 0.75,	0.2, -0.45, 0.65,	0.2, -0.6, 0.65);
+						// right black bar
+						drawTriangle(0.2, -0.6, 0.65, 0.25, -0.45, 0.75, 0.25, -0.65, 0.75);
+						drawTriangle(0.2, -0.6, 0.65, 0.2, -0.45, 0.65, 0.25, -0.45, 0.75);
+						drawTriangle(0.2, -0.45, 0.65, 0.2, -0.4, 0.75, 0.25, -0.45, 0.75);
+						drawTriangle(0.2, -0.4, 0.75, 0.2, -0.4, 2, 0.25, -0.45, 0.75);
+						drawTriangle(0.25, -0.45, 0.75, 0.2, -0.4, 2, 0.25, -0.45, 2);
+						drawTriangle(0.25, -0.45, 0.75, 0.25, -0.45, 2, 0.25, -0.65, 2);
+						drawTriangle(0.25, -0.45, 0.75, 0.25, -0.65, 2, 0.25, -0.65, 0.75);
+						drawTriangle(0.25, -0.65, 2, 0.25, -0.45, 2, 0.2, -0.4, 2);
+						drawTriangle(0.25, -0.65, 2, 0.2, -0.4, 2, 0.2, -0.65, 2);
+						drawTriangle(0.25, -0.65, 2, 0.2, -0.65, 2, 0.2, -0.65, 0.75);
+						drawTriangle(0.25, -0.65, 2, 0.2, -0.65, 0.75, 0.25, -0.65, 0.75);
+						drawTriangle(0.2, -0.65, 0.75, 0.2, -0.6, 0.65, 0.25, -0.65, 0.75);
+						drawTriangle(0.2, -0.4, 0.75, 0.2, -0.65, 2, 0.2, -0.4, 2);
+						drawTriangle(0.2, -0.4, 0.75, 0.2, -0.65, 0.75, 0.2, -0.65, 2);
+						drawTriangle(0.2, -0.4, 0.75, 0.2, -0.6, 0.65, 0.2, -0.65, 0.75);
+						drawTriangle(0.2, -0.4, 0.75, 0.2, -0.45, 0.65, 0.2, -0.6, 0.65);
+					}
+					else{
+						// left black
+						glTranslated(-0.25, -0.65, 0.65);
+						drawBox(0.05, 0.25, 1.35);
+						glTranslated(0.45, 0, 0);
+						// right black
+						drawBox(0.05, 0.25, 1.35);
+						glTranslated(-0.2, 0.65, -0.65);
+					}
+					if (VAL(DETAILS) > 2) {
+						// back black box
+						drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.85, 0.7, -0.2, -0.675, 0.85);
+						drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.675, 0.85, -0.2, -0.4, 0.85);
+						drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.4, 0.85, -0.2, -0.45, 0.475);
+						drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.45, 0.475, -0.2, -0.65, 0.35);
 
-					// back black box
-					drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.85, 0.7,	-0.2, -0.675, 0.85);
-					drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.675, 0.85,	-0.2, -0.4, 0.85);
-					drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.4, 0.85,	-0.2, -0.45, 0.475);
-					drawTriangle(-0.2, -0.85, 0.6, -0.2, -0.45, 0.475,	-0.2, -0.65, 0.35);
+						drawTriangle(-0.2, -0.85, 0.6, 0.2, -0.85, 0.6, 0.2, -0.85, 0.7);
+						drawTriangle(-0.2, -0.85, 0.6, 0.2, -0.85, 0.7, -0.2, -0.85, 0.7);
+						drawTriangle(-0.2, -0.85, 0.7, 0.2, -0.85, 0.7, 0.2, -0.675, 0.85);
+						drawTriangle(-0.2, -0.85, 0.7, 0.2, -0.675, 0.85, -0.2, -0.675, 0.85);
+						drawTriangle(-0.2, -0.675, 0.85, 0.2, -0.675, 0.85, 0.2, -0.4, 0.85);
+						drawTriangle(-0.2, -0.675, 0.85, 0.2, -0.4, 0.85, -0.2, -0.4, 0.85);
+						drawTriangle(-0.2, -0.4, 0.85, 0.2, -0.4, 0.85, 0.2, -0.45, 0.475);
+						drawTriangle(-0.2, -0.4, 0.85, 0.2, -0.45, 0.475, -0.2, -0.45, 0.475);
+						drawTriangle(-0.2, -0.45, 0.475, 0.2, -0.45, 0.475, 0.2, -0.65, 0.35);
+						drawTriangle(-0.2, -0.45, 0.475, 0.2, -0.65, 0.35, -0.2, -0.65, 0.35);
+						drawTriangle(-0.2, -0.65, 0.35, 0.2, -0.65, 0.35, 0.2, -0.85, 0.6);
+						drawTriangle(-0.2, -0.65, 0.35, 0.2, -0.85, 0.6, -0.2, -0.85, 0.6);
 
-					drawTriangle(-0.2, -0.85, 0.6,		0.2, -0.85, 0.6,	0.2, -0.85, 0.7);
-					drawTriangle(-0.2, -0.85, 0.6,		0.2, -0.85, 0.7,	-0.2, -0.85, 0.7);
-					drawTriangle(-0.2, -0.85, 0.7,		0.2, -0.85, 0.7,	0.2, -0.675, 0.85);
-					drawTriangle(-0.2, -0.85, 0.7,		0.2, -0.675, 0.85,	-0.2, -0.675, 0.85);
-					drawTriangle(-0.2, -0.675, 0.85,	0.2, -0.675, 0.85,	0.2, -0.4, 0.85);
-					drawTriangle(-0.2, -0.675, 0.85,	0.2, -0.4, 0.85,	-0.2, -0.4, 0.85);
-					drawTriangle(-0.2, -0.4, 0.85,		0.2, -0.4, 0.85,	0.2, -0.45, 0.475);
-					drawTriangle(-0.2, -0.4, 0.85,		0.2, -0.45, 0.475,	-0.2, -0.45, 0.475);
-					drawTriangle(-0.2, -0.45, 0.475,	0.2, -0.45, 0.475,	0.2, -0.65, 0.35);
-					drawTriangle(-0.2, -0.45, 0.475,	0.2, -0.65, 0.35,	-0.2, -0.65, 0.35);
-					drawTriangle(-0.2, -0.65, 0.35,		0.2, -0.65, 0.35,	0.2, -0.85, 0.6);
-					drawTriangle(-0.2, -0.65, 0.35,		0.2, -0.85, 0.6,	-0.2, -0.85, 0.6);
-
-					drawTriangle(0.2, -0.85, 0.6, 0.2, -0.675, 0.85,	0.2, -0.85, 0.7);
-					drawTriangle(0.2, -0.85, 0.6, 0.2, -0.4, 0.85,		0.2, -0.675, 0.85);
-					drawTriangle(0.2, -0.85, 0.6, 0.2, -0.45, 0.475,	0.2, -0.4, 0.85);
-					drawTriangle(0.2, -0.85, 0.6, 0.2, -0.65, 0.35,		0.2, -0.45, 0.475);
-
-					// black clip
-					glTranslated(-0.15, -0.8, 1.15);
-					drawBox(0.3, 0.3, 0.5);
-					glTranslated(0.15, 0.8, -1.15);
-
+						drawTriangle(0.2, -0.85, 0.6, 0.2, -0.675, 0.85, 0.2, -0.85, 0.7);
+						drawTriangle(0.2, -0.85, 0.6, 0.2, -0.4, 0.85, 0.2, -0.675, 0.85);
+						drawTriangle(0.2, -0.85, 0.6, 0.2, -0.45, 0.475, 0.2, -0.4, 0.85);
+						drawTriangle(0.2, -0.85, 0.6, 0.2, -0.65, 0.35, 0.2, -0.45, 0.475);
+					}
+					else {
+						// back black
+						glTranslated(-0.2, -0.85, 0.6);
+						glRotated(-30, 1.0, 0, 0);
+						drawBox(0.4, 0.325, 0.45);
+						glRotated(30, 1.0, 0, 0);
+						glTranslated(0.2, 0.85, -0.6);
+					}
+						// black clip
+						glTranslated(-0.15, -0.8, 1.15);
+						drawBox(0.3, 0.3, 0.5);
+						glTranslated(0.15, 0.8, -1.15);
+					
 					// black front
 					/*double z = 2.3;
 					drawTriangle(-0.3, -0.1, z, -0.2, -0.1, z, -0.2, 0.15, z);
@@ -694,139 +916,156 @@ void BastionModel::draw()
 					// beige clip holder
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_BEIGE);
-					drawTriangle(-0.2, -0.25, 1.3,	-0.2, -0.1, 1.3,	-0.2, -0.1, 1.15);
-					drawTriangle(-0.2, -0.25, 1.3,	-0.2, -0.1, 1.15,	-0.2, -0.4, 1.15);
-					drawTriangle(-0.2, -0.25, 1.3,	-0.2, -0.4, 1.15,	-0.2, -0.4, 1.5);
-					drawTriangle(-0.2, -0.4, 1.5,	-0.2, -0.4, 1.15,	-0.2, -0.5, 1.3);
-					drawTriangle(-0.2, -0.4, 1.5,	-0.2, -0.5, 1.3,	-0.2, -0.8, 1.5);
-					drawTriangle(-0.2, -0.8, 1.5,	-0.2, -0.5, 1.3,	-0.2, -0.8, 1.3);
-					drawTriangle(-0.2, -0.8, 1.5,	-0.2, -0.8, 1.3,	-0.2, -0.85, 1.35);
-					drawTriangle(-0.2, -0.8, 1.5,	-0.2, -0.85, 1.35,	-0.2, -0.85, 1.65);
-					drawTriangle(-0.2, -0.8, 1.5,	-0.2, -0.85, 1.65,	-0.2, -0.8, 1.7);
+					if (VAL(DETAILS) > 3) {
+						drawTriangle(-0.2, -0.25, 1.3, -0.2, -0.1, 1.3, -0.2, -0.1, 1.15);
+						drawTriangle(-0.2, -0.25, 1.3, -0.2, -0.1, 1.15, -0.2, -0.4, 1.15);
+						drawTriangle(-0.2, -0.25, 1.3, -0.2, -0.4, 1.15, -0.2, -0.4, 1.5);
+						drawTriangle(-0.2, -0.4, 1.5, -0.2, -0.4, 1.15, -0.2, -0.5, 1.3);
+						drawTriangle(-0.2, -0.4, 1.5, -0.2, -0.5, 1.3, -0.2, -0.8, 1.5);
+						drawTriangle(-0.2, -0.8, 1.5, -0.2, -0.5, 1.3, -0.2, -0.8, 1.3);
+						drawTriangle(-0.2, -0.8, 1.5, -0.2, -0.8, 1.3, -0.2, -0.85, 1.35);
+						drawTriangle(-0.2, -0.8, 1.5, -0.2, -0.85, 1.35, -0.2, -0.85, 1.65);
+						drawTriangle(-0.2, -0.8, 1.5, -0.2, -0.85, 1.65, -0.2, -0.8, 1.7);
 
-					drawTriangle(-0.2, -0.1, 1.3,	-0.15, -0.1, 1.3,	-0.15, -0.1, 1.15);
-					drawTriangle(-0.2, -0.1, 1.3,	-0.15, -0.1, 1.15,	-0.2, -0.1, 1.15);
-					drawTriangle(-0.2, -0.1, 1.15,	-0.15, -0.1, 1.15,	-0.15, -0.4, 1.15);
-					drawTriangle(-0.2, -0.1, 1.15,	-0.15, -0.4, 1.15,	-0.2, -0.4, 1.15);
-					drawTriangle(-0.2, -0.4, 1.15,	-0.15, -0.4, 1.15,	-0.15, -0.5, 1.3);
-					drawTriangle(-0.2, -0.4, 1.15,	-0.15, -0.5, 1.3,	-0.2, -0.5, 1.3);
-					drawTriangle(-0.2, -0.5, 1.3,	-0.15, -0.5, 1.3,	-0.15, -0.8, 1.3);
-					drawTriangle(-0.2, -0.5, 1.3,	-0.15, -0.8, 1.3,	-0.2, -0.8, 1.3);
-					drawTriangle(-0.2, -0.8, 1.5,	-0.15, -0.8, 1.5,	-0.15, -0.4, 1.5);
-					drawTriangle(-0.2, -0.8, 1.5,	-0.15, -0.4, 1.5,	-0.2, -0.4, 1.5);
-					drawTriangle(-0.2, -0.4, 1.5,	-0.15, -0.4, 1.5,	-0.15, -0.25, 1.3);
-					drawTriangle(-0.2, -0.4, 1.5,	-0.15, -0.25, 1.3,	-0.2, -0.25, 1.3);
-					drawTriangle(-0.2, -0.25, 1.3,	-0.15, -0.25, 1.3,	-0.15, -0.1, 1.3);
-					drawTriangle(-0.2, -0.25, 1.3,	-0.15, -0.1, 1.3,	-0.2, -0.1, 1.3);
+						drawTriangle(-0.2, -0.1, 1.3, -0.15, -0.1, 1.3, -0.15, -0.1, 1.15);
+						drawTriangle(-0.2, -0.1, 1.3, -0.15, -0.1, 1.15, -0.2, -0.1, 1.15);
+						drawTriangle(-0.2, -0.1, 1.15, -0.15, -0.1, 1.15, -0.15, -0.4, 1.15);
+						drawTriangle(-0.2, -0.1, 1.15, -0.15, -0.4, 1.15, -0.2, -0.4, 1.15);
+						drawTriangle(-0.2, -0.4, 1.15, -0.15, -0.4, 1.15, -0.15, -0.5, 1.3);
+						drawTriangle(-0.2, -0.4, 1.15, -0.15, -0.5, 1.3, -0.2, -0.5, 1.3);
+						drawTriangle(-0.2, -0.5, 1.3, -0.15, -0.5, 1.3, -0.15, -0.8, 1.3);
+						drawTriangle(-0.2, -0.5, 1.3, -0.15, -0.8, 1.3, -0.2, -0.8, 1.3);
+						drawTriangle(-0.2, -0.8, 1.5, -0.15, -0.8, 1.5, -0.15, -0.4, 1.5);
+						drawTriangle(-0.2, -0.8, 1.5, -0.15, -0.4, 1.5, -0.2, -0.4, 1.5);
+						drawTriangle(-0.2, -0.4, 1.5, -0.15, -0.4, 1.5, -0.15, -0.25, 1.3);
+						drawTriangle(-0.2, -0.4, 1.5, -0.15, -0.25, 1.3, -0.2, -0.25, 1.3);
+						drawTriangle(-0.2, -0.25, 1.3, -0.15, -0.25, 1.3, -0.15, -0.1, 1.3);
+						drawTriangle(-0.2, -0.25, 1.3, -0.15, -0.1, 1.3, -0.2, -0.1, 1.3);
 
-					drawTriangle(-0.15, -0.25, 1.3, -0.15, -0.1, 1.15,	-0.15, -0.1, 1.3);
-					drawTriangle(-0.15, -0.25, 1.3, -0.15, -0.4, 1.15,	-0.15, -0.1, 1.15);
-					drawTriangle(-0.15, -0.25, 1.3, -0.15, -0.4, 1.5,	-0.15, -0.4, 1.15);
-					drawTriangle(-0.15, -0.4, 1.5,	-0.15, -0.5, 1.3,	-0.15, -0.4, 1.15);
-					drawTriangle(-0.15, -0.4, 1.5,	-0.15, -0.8, 1.5,	-0.15, -0.5, 1.3);
-					drawTriangle(-0.15, -0.8, 1.5,	-0.15, -0.8, 1.3,	-0.15, -0.5, 1.3);
+						drawTriangle(-0.15, -0.25, 1.3, -0.15, -0.1, 1.15, -0.15, -0.1, 1.3);
+						drawTriangle(-0.15, -0.25, 1.3, -0.15, -0.4, 1.15, -0.15, -0.1, 1.15);
+						drawTriangle(-0.15, -0.25, 1.3, -0.15, -0.4, 1.5, -0.15, -0.4, 1.15);
+						drawTriangle(-0.15, -0.4, 1.5, -0.15, -0.5, 1.3, -0.15, -0.4, 1.15);
+						drawTriangle(-0.15, -0.4, 1.5, -0.15, -0.8, 1.5, -0.15, -0.5, 1.3);
+						drawTriangle(-0.15, -0.8, 1.5, -0.15, -0.8, 1.3, -0.15, -0.5, 1.3);
 
-					drawTriangle(-0.2, -0.8, 1.7,	0.2, -0.8, 1.7,		0.2, -0.8, 1.3);
-					drawTriangle(-0.2, -0.8, 1.7,	0.2, -0.8, 1.3,		-0.2, -0.8, 1.3);
-					drawTriangle(-0.2, -0.8, 1.3,	0.2, -0.8, 1.3,		0.2, -0.85, 1.35);
-					drawTriangle(-0.2, -0.8, 1.3,	0.2, -0.85, 1.35,	-0.2, -0.85, 1.35);
-					drawTriangle(-0.2, -0.85, 1.35, 0.2, -0.85, 1.35,	0.2, -0.85, 1.65);
-					drawTriangle(-0.2, -0.85, 1.35, 0.2, -0.85, 1.65,	-0.2, -0.85, 1.65);
-					drawTriangle(-0.2, -0.85, 1.65, 0.2, -0.85, 1.65,	0.2, -0.8, 1.7);
-					drawTriangle(-0.2, -0.85, 1.65, 0.2, -0.8, 1.7,		-0.2, -0.8, 1.7);
+						drawTriangle(-0.2, -0.8, 1.7, 0.2, -0.8, 1.7, 0.2, -0.8, 1.3);
+						drawTriangle(-0.2, -0.8, 1.7, 0.2, -0.8, 1.3, -0.2, -0.8, 1.3);
+						drawTriangle(-0.2, -0.8, 1.3, 0.2, -0.8, 1.3, 0.2, -0.85, 1.35);
+						drawTriangle(-0.2, -0.8, 1.3, 0.2, -0.85, 1.35, -0.2, -0.85, 1.35);
+						drawTriangle(-0.2, -0.85, 1.35, 0.2, -0.85, 1.35, 0.2, -0.85, 1.65);
+						drawTriangle(-0.2, -0.85, 1.35, 0.2, -0.85, 1.65, -0.2, -0.85, 1.65);
+						drawTriangle(-0.2, -0.85, 1.65, 0.2, -0.85, 1.65, 0.2, -0.8, 1.7);
+						drawTriangle(-0.2, -0.85, 1.65, 0.2, -0.8, 1.7, -0.2, -0.8, 1.7);
 
-					drawTriangle(0.2, -0.25, 1.3,	0.2, -0.1, 1.15,	0.2, -0.1, 1.3);
-					drawTriangle(0.2, -0.25, 1.3,	0.2, -0.4, 1.15,	0.2, -0.1, 1.15);
-					drawTriangle(0.2, -0.25, 1.3,	0.2, -0.4, 1.5,		0.2, -0.4, 1.15);
-					drawTriangle(0.2, -0.4, 1.5,	0.2, -0.5, 1.3,		0.2, -0.4, 1.15);
-					drawTriangle(0.2, -0.4, 1.5,	0.2, -0.8, 1.5,		0.2, -0.5, 1.3);
-					drawTriangle(0.2, -0.8, 1.5,	0.2, -0.8, 1.3,		0.2, -0.5, 1.3);
-					drawTriangle(0.2, -0.8, 1.5,	0.2, -0.85, 1.35,	0.2, -0.8, 1.3);
-					drawTriangle(0.2, -0.8, 1.5,	0.2, -0.85, 1.65,	0.2, -0.85, 1.35);
-					drawTriangle(0.2, -0.8, 1.5,	0.2, -0.8, 1.7,		0.2, -0.85, 1.65);
+						drawTriangle(0.2, -0.25, 1.3, 0.2, -0.1, 1.15, 0.2, -0.1, 1.3);
+						drawTriangle(0.2, -0.25, 1.3, 0.2, -0.4, 1.15, 0.2, -0.1, 1.15);
+						drawTriangle(0.2, -0.25, 1.3, 0.2, -0.4, 1.5, 0.2, -0.4, 1.15);
+						drawTriangle(0.2, -0.4, 1.5, 0.2, -0.5, 1.3, 0.2, -0.4, 1.15);
+						drawTriangle(0.2, -0.4, 1.5, 0.2, -0.8, 1.5, 0.2, -0.5, 1.3);
+						drawTriangle(0.2, -0.8, 1.5, 0.2, -0.8, 1.3, 0.2, -0.5, 1.3);
+						drawTriangle(0.2, -0.8, 1.5, 0.2, -0.85, 1.35, 0.2, -0.8, 1.3);
+						drawTriangle(0.2, -0.8, 1.5, 0.2, -0.85, 1.65, 0.2, -0.85, 1.35);
+						drawTriangle(0.2, -0.8, 1.5, 0.2, -0.8, 1.7, 0.2, -0.85, 1.65);
 
-					drawTriangle(0.2, -0.1, 1.3,	0.15, -0.1, 1.15,	0.15, -0.1, 1.3);
-					drawTriangle(0.2, -0.1, 1.3,	0.2, -0.1, 1.15,	0.15, -0.1, 1.15);
-					drawTriangle(0.2, -0.1, 1.15,	0.15, -0.4, 1.15,	0.15, -0.1, 1.15);
-					drawTriangle(0.2, -0.1, 1.15,	0.2, -0.4, 1.15,	0.15, -0.4, 1.15);
-					drawTriangle(0.2, -0.4, 1.15,	0.15, -0.5, 1.3,	0.15, -0.4, 1.15);
-					drawTriangle(0.2, -0.4, 1.15,	0.2, -0.5, 1.3,		0.15, -0.5, 1.3);
-					drawTriangle(0.2, -0.5, 1.3,	0.15, -0.8, 1.3,	0.15, -0.5, 1.3);
-					drawTriangle(0.2, -0.5, 1.3,	0.2, -0.8, 1.3,		0.15, -0.8, 1.3);
-					drawTriangle(0.2, -0.8, 1.5,	0.15, -0.4, 1.5,	0.15, -0.8, 1.5);
-					drawTriangle(0.2, -0.8, 1.5,	0.2, -0.4, 1.5,		0.15, -0.4, 1.5);
-					drawTriangle(0.2, -0.4, 1.5,	0.15, -0.25, 1.3,	0.15, -0.4, 1.5);
-					drawTriangle(0.2, -0.4, 1.5,	0.2, -0.25, 1.3,	0.15, -0.25, 1.3);
-					drawTriangle(0.2, -0.25, 1.3,	0.15, -0.1, 1.3,	0.15, -0.25, 1.3);
-					drawTriangle(0.2, -0.25, 1.3,	0.2, -0.1, 1.3,		0.15, -0.1, 1.3);
+						drawTriangle(0.2, -0.1, 1.3, 0.15, -0.1, 1.15, 0.15, -0.1, 1.3);
+						drawTriangle(0.2, -0.1, 1.3, 0.2, -0.1, 1.15, 0.15, -0.1, 1.15);
+						drawTriangle(0.2, -0.1, 1.15, 0.15, -0.4, 1.15, 0.15, -0.1, 1.15);
+						drawTriangle(0.2, -0.1, 1.15, 0.2, -0.4, 1.15, 0.15, -0.4, 1.15);
+						drawTriangle(0.2, -0.4, 1.15, 0.15, -0.5, 1.3, 0.15, -0.4, 1.15);
+						drawTriangle(0.2, -0.4, 1.15, 0.2, -0.5, 1.3, 0.15, -0.5, 1.3);
+						drawTriangle(0.2, -0.5, 1.3, 0.15, -0.8, 1.3, 0.15, -0.5, 1.3);
+						drawTriangle(0.2, -0.5, 1.3, 0.2, -0.8, 1.3, 0.15, -0.8, 1.3);
+						drawTriangle(0.2, -0.8, 1.5, 0.15, -0.4, 1.5, 0.15, -0.8, 1.5);
+						drawTriangle(0.2, -0.8, 1.5, 0.2, -0.4, 1.5, 0.15, -0.4, 1.5);
+						drawTriangle(0.2, -0.4, 1.5, 0.15, -0.25, 1.3, 0.15, -0.4, 1.5);
+						drawTriangle(0.2, -0.4, 1.5, 0.2, -0.25, 1.3, 0.15, -0.25, 1.3);
+						drawTriangle(0.2, -0.25, 1.3, 0.15, -0.1, 1.3, 0.15, -0.25, 1.3);
+						drawTriangle(0.2, -0.25, 1.3, 0.2, -0.1, 1.3, 0.15, -0.1, 1.3);
 
-					drawTriangle(0.15, -0.25, 1.3,	0.15, -0.1, 1.3,	0.15, -0.1, 1.15);
-					drawTriangle(0.15, -0.25, 1.3,	0.15, -0.1, 1.15,	0.15, -0.4, 1.15);
-					drawTriangle(0.15, -0.25, 1.3,	0.15, -0.4, 1.15,	0.15, -0.4, 1.5);
-					drawTriangle(0.15, -0.4, 1.5,	0.15, -0.4, 1.15,	0.15, -0.5, 1.3);
-					drawTriangle(0.15, -0.4, 1.5,	0.15, -0.5, 1.3,	0.15, -0.8, 1.5);
-					drawTriangle(0.15, -0.8, 1.5,	0.15, -0.5, 1.3,	0.15, -0.8, 1.3);
+						drawTriangle(0.15, -0.25, 1.3, 0.15, -0.1, 1.3, 0.15, -0.1, 1.15);
+						drawTriangle(0.15, -0.25, 1.3, 0.15, -0.1, 1.15, 0.15, -0.4, 1.15);
+						drawTriangle(0.15, -0.25, 1.3, 0.15, -0.4, 1.15, 0.15, -0.4, 1.5);
+						drawTriangle(0.15, -0.4, 1.5, 0.15, -0.4, 1.15, 0.15, -0.5, 1.3);
+						drawTriangle(0.15, -0.4, 1.5, 0.15, -0.5, 1.3, 0.15, -0.8, 1.5);
+						drawTriangle(0.15, -0.8, 1.5, 0.15, -0.5, 1.3, 0.15, -0.8, 1.3);
+					}
 					
-					// beige top
-					drawTriangle(-0.2, 0.25, 0.8, -0.2, 0.25, 0.55,		-0.2, -0.25, 0.55);
-					drawTriangle(-0.2, 0.25, 0.8, -0.2, -0.25, 0.55,	-0.2, -0.25, 0.65);
-					drawTriangle(-0.2, 0.25, 0.8, -0.2, -0.25, 0.65,	-0.2, -0.1, 0.85);
-					drawTriangle(-0.2, 0.25, 0.8, -0.2, -0.1, 0.85,		-0.2, 0.15, 0.9);
-					drawTriangle(-0.2, 0.15, 0.9, -0.2, -0.1, 0.85,		-0.2, -0.1, 2.1);
-					drawTriangle(-0.2, 0.15, 0.9, -0.2, -0.1, 2.1,		-0.2, 0.15, 2.1);
+					
+					if (VAL(DETAILS) > 2) {
+						// beige top
+						drawTriangle(-0.2, 0.25, 0.8, -0.2, 0.25, 0.55, -0.2, -0.25, 0.55);
+						drawTriangle(-0.2, 0.25, 0.8, -0.2, -0.25, 0.55, -0.2, -0.25, 0.65);
+						drawTriangle(-0.2, 0.25, 0.8, -0.2, -0.25, 0.65, -0.2, -0.1, 0.85);
+						drawTriangle(-0.2, 0.25, 0.8, -0.2, -0.1, 0.85, -0.2, 0.15, 0.9);
+						drawTriangle(-0.2, 0.15, 0.9, -0.2, -0.1, 0.85, -0.2, -0.1, 2.1);
+						drawTriangle(-0.2, 0.15, 0.9, -0.2, -0.1, 2.1, -0.2, 0.15, 2.1);
 
-					drawTriangle(-0.2, 0.25, 0.55, 0.2, 0.25, 0.8, 0.2, 0.25, 0.55);
-					drawTriangle(-0.2, 0.25, 0.55, -0.2, 0.25, 0.8, 0.2, 0.25, 0.8);
-					drawTriangle(-0.2, 0.25, 0.8, 0.2, 0.15, 0.9, 0.2, 0.25, 0.8);
-					drawTriangle(-0.2, 0.25, 0.8, -0.2, 0.15, 0.9, 0.2, 0.15, 0.9);
-					drawTriangle(-0.2, 0.15, 0.9, 0.2, 0.15, 2.1, 0.2, 0.15, 0.9);
-					drawTriangle(-0.2, 0.15, 0.9, -0.2, 0.15, 2.1, 0.2, 0.15, 2.1);
-					drawTriangle(-0.2, 0.15, 2.1, 0.2, -0.1, 2.1, 0.2, 0.15, 2.1);
-					drawTriangle(-0.2, 0.15, 2.1, -0.2, -0.1, 2.1, 0.2, -0.1, 2.1);
-					drawTriangle(-0.2, -0.1, 2.1, 0.2, -0.1, 0.85, 0.2, -0.1, 2.1);
-					drawTriangle(-0.2, -0.1, 2.1, -0.2, -0.1, 0.85, 0.2, -0.1, 0.85);
-					drawTriangle(-0.2, -0.1, 0.85, 0.2, -0.25, 0.65, 0.2, -0.1, 0.85);
-					drawTriangle(-0.2, -0.1, 0.85, -0.2, -0.25, 0.65, 0.2, -0.25, 0.65);
-					drawTriangle(-0.2, -0.25, 0.65, 0.2, -0.25, 0.6, 0.2, -0.25, 0.65);
-					drawTriangle(-0.2, -0.25, 0.65, -0.2, -0.25, 0.6, 0.2, -0.25, 0.6);
-					drawTriangle(-0.2, -0.25, 0.6, 0.2, 0.25, 0.6, 0.2, -0.25, 0.6);
-					drawTriangle(-0.2, -0.25, 0.6, -0.2, 0.25, 0.6, 0.2, 0.25, 0.6);
+						drawTriangle(-0.2, 0.25, 0.55, 0.2, 0.25, 0.8, 0.2, 0.25, 0.55);
+						drawTriangle(-0.2, 0.25, 0.55, -0.2, 0.25, 0.8, 0.2, 0.25, 0.8);
+						drawTriangle(-0.2, 0.25, 0.8, 0.2, 0.15, 0.9, 0.2, 0.25, 0.8);
+						drawTriangle(-0.2, 0.25, 0.8, -0.2, 0.15, 0.9, 0.2, 0.15, 0.9);
+						drawTriangle(-0.2, 0.15, 0.9, 0.2, 0.15, 2.1, 0.2, 0.15, 0.9);
+						drawTriangle(-0.2, 0.15, 0.9, -0.2, 0.15, 2.1, 0.2, 0.15, 2.1);
+						drawTriangle(-0.2, 0.15, 2.1, 0.2, -0.1, 2.1, 0.2, 0.15, 2.1);
+						drawTriangle(-0.2, 0.15, 2.1, -0.2, -0.1, 2.1, 0.2, -0.1, 2.1);
+						drawTriangle(-0.2, -0.1, 2.1, 0.2, -0.1, 0.85, 0.2, -0.1, 2.1);
+						drawTriangle(-0.2, -0.1, 2.1, -0.2, -0.1, 0.85, 0.2, -0.1, 0.85);
+						drawTriangle(-0.2, -0.1, 0.85, 0.2, -0.25, 0.65, 0.2, -0.1, 0.85);
+						drawTriangle(-0.2, -0.1, 0.85, -0.2, -0.25, 0.65, 0.2, -0.25, 0.65);
+						drawTriangle(-0.2, -0.25, 0.65, 0.2, -0.25, 0.6, 0.2, -0.25, 0.65);
+						drawTriangle(-0.2, -0.25, 0.65, -0.2, -0.25, 0.6, 0.2, -0.25, 0.6);
+						drawTriangle(-0.2, -0.25, 0.6, 0.2, 0.25, 0.6, 0.2, -0.25, 0.6);
+						drawTriangle(-0.2, -0.25, 0.6, -0.2, 0.25, 0.6, 0.2, 0.25, 0.6);
 
-					drawTriangle(0.2, 0.25, 0.8, 0.2, -0.25, 0.55, 0.2, 0.25, 0.55);
-					drawTriangle(0.2, 0.25, 0.8, 0.2, -0.25, 0.65, 0.2, -0.25, 0.55);
-					drawTriangle(0.2, 0.25, 0.8, 0.2, -0.1, 0.85, 0.2, -0.25, 0.65);
-					drawTriangle(0.2, 0.25, 0.8, 0.2, 0.15, 0.9, 0.2, -0.1, 0.85);
-					drawTriangle(0.2, 0.15, 0.9, 0.2, -0.1, 2.1, 0.2, -0.1, 0.85);
-					drawTriangle(0.2, 0.15, 0.9, 0.2, 0.15, 2.1, 0.2, -0.1, 2.1);
+						drawTriangle(0.2, 0.25, 0.8, 0.2, -0.25, 0.55, 0.2, 0.25, 0.55);
+						drawTriangle(0.2, 0.25, 0.8, 0.2, -0.25, 0.65, 0.2, -0.25, 0.55);
+						drawTriangle(0.2, 0.25, 0.8, 0.2, -0.1, 0.85, 0.2, -0.25, 0.65);
+						drawTriangle(0.2, 0.25, 0.8, 0.2, 0.15, 0.9, 0.2, -0.1, 0.85);
+						drawTriangle(0.2, 0.15, 0.9, 0.2, -0.1, 2.1, 0.2, -0.1, 0.85);
+						drawTriangle(0.2, 0.15, 0.9, 0.2, 0.15, 2.1, 0.2, -0.1, 2.1);
 
-					// beige bottom
-					drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.525, 1.725, -0.2, -0.625, 1.725);
-					drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.625, 1.725, -0.2, -0.7, 1.8);
-					drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.7, 1.8,		-0.2, -0.7, 2.1);
-					drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.7, 2.1,		-0.2, -0.45, 2.1);
+						// beige bottom
+						drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.525, 1.725, -0.2, -0.625, 1.725);
+						drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.625, 1.725, -0.2, -0.7, 1.8);
+						drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.7, 1.8,		-0.2, -0.7, 2.1);
+						drawTriangle(-0.2, -0.45, 1.8, -0.2, -0.7, 2.1,		-0.2, -0.45, 2.1);
 
-					drawTriangle(-0.2, -0.45, 2.1,		0.2, -0.45, 2.1,	0.2, -0.45, 1.8);
-					drawTriangle(-0.2, -0.45, 2.1,		0.2, -0.45, 1.8,	-0.2, -0.45, 1.8);
-					drawTriangle(-0.2, -0.45, 1.8,		0.2, -0.45, 1.8,	0.2, -0.525, 1.725);
-					drawTriangle(-0.2, -0.45, 1.8,		0.2, -0.525, 1.725, -0.2, -0.525, 1.725);
-					drawTriangle(-0.2, -0.525, 1.725,	0.2, -0.525, 1.725, 0.2, -0.625, 1.725);
-					drawTriangle(-0.2, -0.525, 1.725,	0.2, -0.625, 1.725, -0.2, -0.625, 1.725);
-					drawTriangle(-0.2, -0.625, 1.725,	0.2, -0.625, 1.725, 0.2, -0.7, 1.8);
-					drawTriangle(-0.2, -0.625, 1.725,	0.2, -0.7, 1.8,		-0.2, -0.7, 1.8);
-					drawTriangle(-0.2, -0.7, 1.8,		0.2, -0.7, 1.8,		0.2, -0.7, 2.1);
-					drawTriangle(-0.2, -0.7, 1.8,		0.2, -0.7, 2.1,		-0.2, -0.7, 2.1);
-					drawTriangle(-0.2, -0.7, 2.1,		0.2, -0.7, 2.1,		0.2, -0.45, 2.1);
-					drawTriangle(-0.2, -0.7, 2.1,		0.2, -0.45, 2.1,	-0.2, -0.45, 2.1);
+						drawTriangle(-0.2, -0.45, 2.1,		0.2, -0.45, 2.1,	0.2, -0.45, 1.8);
+						drawTriangle(-0.2, -0.45, 2.1,		0.2, -0.45, 1.8,	-0.2, -0.45, 1.8);
+						drawTriangle(-0.2, -0.45, 1.8,		0.2, -0.45, 1.8,	0.2, -0.525, 1.725);
+						drawTriangle(-0.2, -0.45, 1.8,		0.2, -0.525, 1.725, -0.2, -0.525, 1.725);
+						drawTriangle(-0.2, -0.525, 1.725,	0.2, -0.525, 1.725, 0.2, -0.625, 1.725);
+						drawTriangle(-0.2, -0.525, 1.725,	0.2, -0.625, 1.725, -0.2, -0.625, 1.725);
+						drawTriangle(-0.2, -0.625, 1.725,	0.2, -0.625, 1.725, 0.2, -0.7, 1.8);
+						drawTriangle(-0.2, -0.625, 1.725,	0.2, -0.7, 1.8,		-0.2, -0.7, 1.8);
+						drawTriangle(-0.2, -0.7, 1.8,		0.2, -0.7, 1.8,		0.2, -0.7, 2.1);
+						drawTriangle(-0.2, -0.7, 1.8,		0.2, -0.7, 2.1,		-0.2, -0.7, 2.1);
+						drawTriangle(-0.2, -0.7, 2.1,		0.2, -0.7, 2.1,		0.2, -0.45, 2.1);
+						drawTriangle(-0.2, -0.7, 2.1,		0.2, -0.45, 2.1,	-0.2, -0.45, 2.1);
 
-					drawTriangle(0.2, -0.45, 1.8, 0.2, -0.625, 1.725,	0.2, -0.525, 1.725);
-					drawTriangle(0.2, -0.45, 1.8, 0.2, -0.7, 1.8,		0.2, -0.625, 1.725);
-					drawTriangle(0.2, -0.45, 1.8, 0.2, -0.7, 2.1,		0.2, -0.7, 1.8);
-					drawTriangle(0.2, -0.45, 1.8, 0.2, -0.45, 2.1,		0.2, -0.7, 2.1);
+						drawTriangle(0.2, -0.45, 1.8, 0.2, -0.625, 1.725,	0.2, -0.525, 1.725);
+						drawTriangle(0.2, -0.45, 1.8, 0.2, -0.7, 1.8,		0.2, -0.625, 1.725);
+						drawTriangle(0.2, -0.45, 1.8, 0.2, -0.7, 2.1,		0.2, -0.7, 1.8);
+						drawTriangle(0.2, -0.45, 1.8, 0.2, -0.45, 2.1,		0.2, -0.7, 2.1);
+					}
+					else {
+						// beige top
+						glTranslated(-0.2, -0.25, 0.55);
+						drawBox(0.4, 0.5, 0.25);
+						glTranslated(0, 0.15, 0.25);
+						drawBox(0.4, 0.25, 1.3);
+						glTranslated(0.2, 0.1, -0.8);
+						// beige bottom
+						glTranslated(-0.2, -0.7, 1.725);
+						drawBox(0.4, 0.25, 0.375);
+						glTranslated(0.2, 0.7, -1.725);
+					}
 
-					glPopMatrix();
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
+					glPopMatrix(); // gun
+				glPopMatrix(); // right upper arm
+			glPopMatrix(); // right shouler
+		glPopMatrix(); // upper body
 
 		
 		// draw lower body
@@ -847,11 +1086,13 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_GRAY);
 			glTranslated(0.0, -0.45, 0.0);
 			glRotated(90 + VAL(LEFT_UPPER_LEG_Y_ROTATE), 0.0, 1.0, 0.0);
-			drawCylinder(1.45, 0.25, 0.25);
+			if (VAL(DETAILS) > 1) {
+				drawCylinder(1.45, 0.25, 0.25);
 
-			glTranslated(0.0, 0.0, 0.65);
-			drawCylinder(0.8, 0.4, 0.4);
-			glTranslated(0.0, 0.0, -0.65);
+				glTranslated(0.0, 0.0, 0.65);
+				drawCylinder(0.8, 0.4, 0.4);
+				glTranslated(0.0, 0.0, -0.65);
+			}
 				
 			glRotated(-90, 0.0, 1.0, 0.0);
 				
@@ -871,10 +1112,12 @@ void BastionModel::draw()
 					drawBox(1, 1.1, 0.25);
 
 					glTranslated(0.0, 1.1, 0.0);
-					drawTriangle(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.25, 0.0);
-					drawTriangle(0.0, 0.0, 0.25, 0.5, 0.0, 0.25, 0.5, 0.25, 0.25);
-					drawTriangle(0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25, 0.25);
-					drawTriangle(0.0, 0.0, 0.0, 0.5, 0.25, 0.25, 0.5, 0.25, 0.0);
+					if (VAL(DETAILS) > 3) {
+						drawTriangle(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.5, 0.25, 0.0);
+						drawTriangle(0.0, 0.0, 0.25, 0.5, 0.0, 0.25, 0.5, 0.25, 0.25);
+						drawTriangle(0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25, 0.25);
+						drawTriangle(0.0, 0.0, 0.0, 0.5, 0.25, 0.25, 0.5, 0.25, 0.0);
+					}
 
 					glTranslated(0.5, 0.0, 0.0);
 					drawBox(0.5, 0.5, 0.25);
@@ -885,9 +1128,11 @@ void BastionModel::draw()
 				setAmbientColor(.1f, .1f, .1f);
 				setDiffuseColor(COLOR_GRAY);
 				glTranslated(0.0, 0.0, 0.3);
-				glRotated(90, 0.0, 1.0, 0.0);
-				drawCylinder(0.8, 0.3, 0.3);
-				glRotated(-90, 0.0, 1.0, 0.0);
+				if (VAL(DETAILS) > 1) {
+					glRotated(90, 0.0, 1.0, 0.0);
+					drawCylinder(0.8, 0.3, 0.3);
+					glRotated(-90, 0.0, 1.0, 0.0);
+				}
 
 					
 					//draw left middle leg
@@ -908,9 +1153,11 @@ void BastionModel::draw()
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_GRAY);
 					glTranslated(0.0, 0.0, 0.3);
-					glRotated(90, 0.0, 1.0, 0.0);
-					drawCylinder(0.8, 0.35, 0.35);
-					glRotated(-90, 0.0, 1.0, 0.0);
+					if (VAL(DETAILS) > 1) {
+						glRotated(90, 0.0, 1.0, 0.0);
+						drawCylinder(0.8, 0.35, 0.35);
+						glRotated(-90, 0.0, 1.0, 0.0);
+					}
 
 
 
@@ -935,9 +1182,11 @@ void BastionModel::draw()
 						setAmbientColor(.1f, .1f, .1f);
 						setDiffuseColor(COLOR_GRAY);
 						glTranslated(0.0, 0.0, 0.3);
-						glRotated(90, 0.0, 1.0, 0.0);
-						drawCylinder(0.8, 0.3, 0.3);
-						glRotated(-90, 0.0, 1.0, 0.0);
+						if (VAL(DETAILS) > 1) {
+							glRotated(90, 0.0, 1.0, 0.0);
+							drawCylinder(0.8, 0.3, 0.3);
+							glRotated(-90, 0.0, 1.0, 0.0);
+						}
 
 
 							//draw left foot
@@ -949,29 +1198,31 @@ void BastionModel::draw()
 							setAmbientColor(.1f, .1f, .1f);
 							setDiffuseColor(COLOR_ORANGE);
 							drawBox(1.25, 0.3, 1.5);
-							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
-							drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
-							drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, -0.3, 1.25, 0.0, 0.0);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.3, -0.3, 1.25, 0.0, 0.0);
-							drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
-							drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+							if (VAL(DETAILS) > 3) {
+								drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
+								drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
+								drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, -0.3, 1.25, 0.0, 0.0);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.3, -0.3, 1.25, 0.0, 0.0);
+								drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
+								drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
 
-							glRotated(180, 0.0, 1.0, 0.0);
-							glTranslated(-1.25, 0.0, -1.5);
-							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
-							drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
-							drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 0.0, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.0, 0.0, 1.25, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
-							drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+								glRotated(180, 0.0, 1.0, 0.0);
+								glTranslated(-1.25, 0.0, -1.5);
+								drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
+								drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
+								drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 0.0, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.0, 0.0, 1.25, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
+								drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+							}
 
 							glPopMatrix(); // finish foot
 
@@ -992,11 +1243,13 @@ void BastionModel::draw()
 			setDiffuseColor(COLOR_GRAY);
 			glTranslated(0.0, -0.45, 0.0);
 			glRotated(-90 - VAL(RIGHT_UPPER_LEG_Y_ROTATE), 0.0, 1.0, 0.0);
-			drawCylinder(1.45, 0.25, 0.25);
+			if (VAL(DETAILS) > 1) {
+				drawCylinder(1.45, 0.25, 0.25);
 
-			glTranslated(0.0, 0.0, 0.65);
-			drawCylinder(0.8, 0.4, 0.4);
-			glTranslated(0.0, 0.0, -0.65);
+				glTranslated(0.0, 0.0, 0.65);
+				drawCylinder(0.8, 0.4, 0.4);
+				glTranslated(0.0, 0.0, -0.65);
+			}
 
 			glRotated(90, 0.0, 1.0, 0.0);
 
@@ -1019,10 +1272,12 @@ void BastionModel::draw()
 				drawBox(0.5, 0.5, 0.25);
 
 				glTranslated(0.5, 0.0, 0.0);
-				drawTriangle(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0);
-				drawTriangle(0.0, 0.0, 0.25, 0.5, 0.0, 0.25, 0.0, 0.25, 0.25);
-				drawTriangle(0.0, 0.25, 0.0, 0.5, 0.0, 0.25, 0.5, 0.0, 0.0);
-				drawTriangle(0.0, 0.25, 0.25, 0.5, 0.0, 0.25, 0.0, 0.25, 0.0);
+				if (VAL(DETAILS) > 3) {
+					drawTriangle(0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.25, 0.0);
+					drawTriangle(0.0, 0.0, 0.25, 0.5, 0.0, 0.25, 0.0, 0.25, 0.25);
+					drawTriangle(0.0, 0.25, 0.0, 0.5, 0.0, 0.25, 0.5, 0.0, 0.0);
+					drawTriangle(0.0, 0.25, 0.25, 0.5, 0.0, 0.25, 0.0, 0.25, 0.0);
+				}
 				glPopMatrix();
 
 
@@ -1030,9 +1285,11 @@ void BastionModel::draw()
 				setAmbientColor(.1f, .1f, .1f);
 				setDiffuseColor(COLOR_GRAY);
 				glTranslated(0.0, 0.0, 0.3);
-				glRotated(90, 0.0, 1.0, 0.0);
-				drawCylinder(0.8, 0.3, 0.3);
-				glRotated(-90, 0.0, 1.0, 0.0);
+				if (VAL(DETAILS) > 1) {
+					glRotated(90, 0.0, 1.0, 0.0);
+					drawCylinder(0.8, 0.3, 0.3);
+					glRotated(-90, 0.0, 1.0, 0.0);
+				}
 
 
 					//draw right middle leg
@@ -1053,9 +1310,11 @@ void BastionModel::draw()
 					setAmbientColor(.1f, .1f, .1f);
 					setDiffuseColor(COLOR_GRAY);
 					glTranslated(0.0, 0.0, 0.3);
-					glRotated(90, 0.0, 1.0, 0.0);
-					drawCylinder(0.8, 0.35, 0.35);
-					glRotated(-90, 0.0, 1.0, 0.0);
+					if (VAL(DETAILS) > 1) {
+						glRotated(90, 0.0, 1.0, 0.0);
+						drawCylinder(0.8, 0.35, 0.35);
+						glRotated(-90, 0.0, 1.0, 0.0);
+					}
 
 
 
@@ -1080,9 +1339,11 @@ void BastionModel::draw()
 						setAmbientColor(.1f, .1f, .1f);
 						setDiffuseColor(COLOR_GRAY);
 						glTranslated(0.0, 0.0, 0.3);
-						glRotated(90, 0.0, 1.0, 0.0);
-						drawCylinder(0.8, 0.3, 0.3);
-						glRotated(-90, 0.0, 1.0, 0.0);
+						if (VAL(DETAILS) > 1) {
+							glRotated(90, 0.0, 1.0, 0.0);
+							drawCylinder(0.8, 0.3, 0.3);
+							glRotated(-90, 0.0, 1.0, 0.0);
+						}
 
 
 							//draw right foot
@@ -1094,29 +1355,31 @@ void BastionModel::draw()
 							setAmbientColor(.1f, .1f, .1f);
 							setDiffuseColor(COLOR_ORANGE);
 							drawBox(1.25, 0.3, 1.5);
-							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
-							drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
-							drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, -0.3, 1.25, 0.0, 0.0);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.3, -0.3, 1.25, 0.0, 0.0);
-							drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
-							drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+							if (VAL(DETAILS) > 3) {
+								drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
+								drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
+								drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, -0.3, 1.25, 0.0, 0.0);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.3, -0.3, 1.25, 0.0, 0.0);
+								drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
+								drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
 
-							glRotated(180, 0.0, 1.0, 0.0);
-							glTranslated(-1.25, 0.0, -1.5);
-							drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
-							drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
-							drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 0.0, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.0, 0.0, 1.25, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
-							drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
-							drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+								glRotated(180, 0.0, 1.0, 0.0);
+								glTranslated(-1.25, 0.0, -1.5);
+								drawTriangle(0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, 0.0, 0.0, 0.6, -0.3, 0.0, 0.3, -0.3);
+								drawTriangle(1.25, 0.0, 0.0, 1.25, 0.3, -0.3, 1.25, 0.3, 0.0);
+								drawTriangle(1.25, 0.3, 0.0, 1.25, 0.3, -0.3, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.0, 0.0, 1.25, 0.0, 0.0, 0.0, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.0, 0.0, 1.25, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, 0.0, 1.25, 0.3, 0.0, 0.0, 0.6, -0.3);
+								drawTriangle(0.0, 0.6, -0.3, 1.25, 0.3, 0.0, 1.25, 0.6, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 1.25, 0.6, -0.3, 1.25, 0.3, -0.3);
+								drawTriangle(0.0, 0.3, -0.3, 0.0, 0.6, -0.3, 1.25, 0.6, -0.3);
+							}
 
 							glPopMatrix(); // finish foot
 
@@ -1187,6 +1450,7 @@ int main()
 	controls[RIGHT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Right Middle Leg X Rotate", 0, 90, 1, 60);
 	controls[RIGHT_LOWER_LEG_X_ROTATE] = ModelerControl("Right Lower Leg X Rotate", 0, 60, 1, 40);
 	controls[RIGHT_FOOT_X_ROTATE] = ModelerControl("Right Foot X Rotate", -30, 30, 1, 10);
+	controls[DETAILS] = ModelerControl("Level of Details", 1, 5, 1, 5);
 	controls[LIGHT_TEST] = ModelerControl("Light Test", -25, 25, 1, -2);
 	controls[ANIMATE] = ModelerControl("Enable animation", 0, 1, 1, 0);
 
