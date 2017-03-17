@@ -33,8 +33,9 @@ ModelerView* createBastionModel(int x, int y, int w, int h, char *label)
 	return new BastionModel(x, y, w, h, label);
 }
 
-double lshoulderx, lupperarmy, llowerarmx, llowerarmy;
+double lshoulderx, lupperarmy, llowerarmx, lwristy;
 bool posdeg = true;
+bool anibool = false;
 
 // We are going to override (is that the right word?) the draw()
 // method of ModelerView to draw out SampleModel
@@ -58,7 +59,7 @@ void BastionModel::draw()
 	{
 		lshoulderx = 90;
 		llowerarmx = 90;
-		llowerarmy = -90;
+		lwristy = -90;
 		if (lupperarmy >= 30)
 			posdeg = false;
 		else if (lupperarmy <= -30)
@@ -70,7 +71,7 @@ void BastionModel::draw()
 		lshoulderx = VAL(LEFT_SHOULDER_X_ROTATE);
 		lupperarmy = VAL(LEFT_UPPER_ARM_Y_ROTATE);
 		llowerarmx = VAL(LEFT_LOWER_ARM_X_ROTATE);
-		llowerarmy = VAL(LEFT_LOWER_ARM_Y_ROTATE);
+		lwristy = VAL(WRIST_Y_ROTATE);
 	}
 
 	//if (VAL(DETAILS) <= 2) {
@@ -369,7 +370,7 @@ void BastionModel::draw()
 					glPushMatrix();
 
 					glTranslated(0.25, -1.5, 0.25);
-					glRotated(llowerarmy, 0, 1.0, 0);
+					glRotated(VAL(LEFT_LOWER_ARM_Y_ROTATE), 0, 1.0, 0);
 					if (VAL(DETAILS) > 1) {
 						glTranslated(-0.275, 0, 0);
 						glRotated(90, 0, 1.0, 0);
@@ -393,7 +394,7 @@ void BastionModel::draw()
 						glTranslated(0.125, -1.6, 0);
 
 						glTranslated(0.125, 0, 0.25);
-						glRotated(VAL(WRIST_Y_ROTATE), 0, 1.0, 0);
+						glRotated(lwristy, 0, 1.0, 0);
 						glRotated(VAL(WRIST_X_ROTATE), 1.0, 0, 0);
 						glRotated(VAL(WRIST_Z_ROTATE), 0, 0, 1.0);
 						glTranslated(-0.125, 0, -0.25);
@@ -1606,7 +1607,7 @@ int main()
 	controls[RIGHT_LOWER_LEG_X_ROTATE] = ModelerControl("Right Lower Leg X Rotate", 0, 60, 1, 40);
 	controls[RIGHT_FOOT_X_ROTATE] = ModelerControl("Right Foot X Rotate", -30, 30, 1, 10);
 	controls[DETAILS] = ModelerControl("Level of Details", 1, 5, 1, 5);
-	controls[LIGHT_TEST] = ModelerControl("Light Test", -25, 25, 1, -2);
+	controls[LIGHT_TEST] = ModelerControl("Lighting", -25, 25, 1, -2);
 	controls[MOOD] = ModelerControl("Mood", 0, 4, 1, 0);
 	controls[ANIMATE] = ModelerControl("Enable animation", 0, 1, 1, 0);
 
