@@ -22,6 +22,8 @@ public:
 		: ModelerView(x, y, w, h, label) { }
 
 	virtual void draw();
+
+	void reset();
 };
 
 // We need to make a creator function, mostly because of
@@ -71,6 +73,90 @@ void BastionModel::draw()
 		llowerarmy = VAL(LEFT_LOWER_ARM_Y_ROTATE);
 	}
 
+	//if (VAL(DETAILS) <= 2) {
+	//	// hide finger controls
+
+	//}
+	//else {
+	//	// show
+	//}
+	
+	if (VAL(MOOD) == 1) {
+		reset();
+		SET(LOWER_BODY_ROTATE, -31);
+		SET(HEAD_Z_TILT, 11);
+		SET(LEFT_SHOULDER_X_ROTATE, 53);
+		SET(LEFT_LOWER_ARM_X_ROTATE, 125);
+		SET(LEFT_LOWER_ARM_Y_ROTATE, 8);
+		SET(WRIST_X_ROTATE, 29);
+		SET(WRIST_Y_ROTATE, -29);
+		SET(RIGHT_SHOULDER_Y_ROTATE, 28);
+		SET(RIGHT_SHOULDER_Z_ROTATE, 16);
+		SET(RIGHT_UPPER_ARM_Y_ROTATE, -12);
+		SET(GUN_X_ROTATE, 45);
+		SET(GUN_Y_ROTATE, -20);
+		SET(GUN_Z_ROTATE, 1);
+		SET(LEFT_UPPER_LEG_X_ROTATE, 40);
+		SET(LEFT_UPPER_LEG_Y_ROTATE, 20);
+		SET(LEFT_MIDDLE_LEG_X_ROTATE, 90);
+		SET(LEFT_LOWER_LEG_X_ROTATE, 60);
+		SET(LEFT_FOOT_X_ROTATE, 12);
+		SET(RIGHT_UPPER_LEG_X_ROTATE, 15);
+		SET(RIGHT_UPPER_LEG_Y_ROTATE, 20);
+		SET(RIGHT_MIDDLE_LEG_X_ROTATE, 90);
+		SET(RIGHT_LOWER_LEG_X_ROTATE, 60);
+		SET(RIGHT_FOOT_X_ROTATE, -19);
+	}
+	else if (VAL(MOOD) == 2) {
+		reset();
+		SET(HEAD_X_TILT, -25);
+		SET(HEAD_Z_TILT, -15);
+		SET(LEFT_SHOULDER_X_ROTATE, -38);
+		SET(LEFT_LOWER_ARM_X_ROTATE, 10);
+		SET(WRIST_Y_ROTATE, 66);
+		SET(WRIST_Z_ROTATE, 71);
+		SET(RIGHT_SHOULDER_X_ROTATE, -38);
+		SET(RIGHT_UPPER_ARM_Y_ROTATE, -30);
+		SET(GUN_X_ROTATE, -15);
+		SET(GUN_Y_ROTATE, -16);
+		SET(GUN_Z_ROTATE, -36);
+		SET(LEFT_UPPER_LEG_X_ROTATE, 90);
+		SET(LEFT_MIDDLE_LEG_X_ROTATE, 5);
+		SET(LEFT_LOWER_LEG_X_ROTATE, 30);
+		SET(RIGHT_UPPER_LEG_X_ROTATE, 90);
+		SET(RIGHT_MIDDLE_LEG_X_ROTATE, 5);
+		SET(RIGHT_LOWER_LEG_X_ROTATE, 30);
+	}
+	else if (VAL(MOOD) == 3) {
+		reset();
+		SET(XROTATE, 25);
+		SET(HEAD_X_TILT, 25);
+		SET(LEFT_SHOULDER_X_ROTATE, 25);
+		SET(LEFT_LOWER_ARM_X_ROTATE, 0);
+		SET(RIGHT_SHOULDER_X_ROTATE, 25);
+		SET(GUN_X_ROTATE, 45);
+		SET(LEFT_UPPER_LEG_X_ROTATE, 55);
+		SET(LEFT_MIDDLE_LEG_X_ROTATE, 75);
+		SET(LEFT_LOWER_LEG_X_ROTATE, 55);
+		SET(RIGHT_UPPER_LEG_X_ROTATE, 55);
+		SET(RIGHT_MIDDLE_LEG_X_ROTATE, 75);
+		SET(RIGHT_LOWER_LEG_X_ROTATE, 55);
+	}
+	else if (VAL(MOOD) == 4) {
+		reset();
+		SET(LOWER_BODY_ROTATE, 10);
+		SET(HEAD_ROTATE, -25);
+		SET(LEFT_SHOULDER_X_ROTATE, -30);
+		SET(LEFT_LOWER_ARM_X_ROTATE, 85);
+		SET(GUN_X_ROTATE, 45);
+		SET(GUN_Y_ROTATE, -25);
+		SET(LEFT_UPPER_LEG_X_ROTATE, 0);
+		SET(LEFT_FOOT_X_ROTATE, 25);
+		SET(RIGHT_UPPER_LEG_X_ROTATE, 45);
+		SET(RIGHT_FOOT_X_ROTATE, 15);
+	}
+	
+
 	// draw the bastion model
 	setAmbientColor(.1f, .1f, .1f);
 	setDiffuseColor(COLOR_GRAY);
@@ -79,6 +165,10 @@ void BastionModel::draw()
 
 		// translate whole body first
 		glTranslated(0, 0, 0.5);
+		
+		glRotated(VAL(YROTATE), 0, 1.0, 0);
+		glRotated(VAL(XROTATE), 1.0, 0, 0);
+		glRotated(VAL(ZROTATE), 0, 0, 1.0);
 
 		// draw upper body
 		// draw waist
@@ -172,6 +262,8 @@ void BastionModel::draw()
 			glTranslated(-0.05, 0.5, -0.25);
 			glTranslated(0.5, 0, 0.5);
 			glRotated(VAL(HEAD_ROTATE), 0.0, 1.0, 0.0);
+			glRotated(VAL(HEAD_X_TILT), 1.0, 0, 0);
+			glRotated(VAL(HEAD_Z_TILT), 0, 0, 1.0);
 			glTranslated(-0.5, 0, -0.5);
 			drawBox(1, 1, 1);
 
@@ -301,8 +393,8 @@ void BastionModel::draw()
 						glTranslated(0.125, -1.6, 0);
 
 						glTranslated(0.125, 0, 0.25);
-						glRotated(VAL(WRIST_X_ROTATE), 1.0, 0, 0);
 						glRotated(VAL(WRIST_Y_ROTATE), 0, 1.0, 0);
+						glRotated(VAL(WRIST_X_ROTATE), 1.0, 0, 0);
 						glRotated(VAL(WRIST_Z_ROTATE), 0, 0, 1.0);
 						glTranslated(-0.125, 0, -0.25);
 
@@ -1071,6 +1163,7 @@ void BastionModel::draw()
 		// draw lower body
 		glPushMatrix();
 			// draw pelvis
+		glRotated(VAL(LOWER_BODY_ROTATE), 0, 1.0, 0);
 			glPushMatrix();
 			setAmbientColor(.1f, .1f, .1f);
 			setDiffuseColor(COLOR_OLIVE);
@@ -1398,6 +1491,62 @@ void BastionModel::draw()
 	glPopMatrix();
 }
 
+void BastionModel::reset()
+{
+	SET(XPOS, 0);
+	SET(YPOS, 0);
+	SET(ZPOS, 0);
+	SET(XROTATE, 0);
+	SET(YROTATE, 0);
+	SET(ZROTATE, 0);
+	SET(UPPER_BODY_ROTATE, 0);
+	SET(LOWER_BODY_ROTATE, 0);
+	SET(HEAD_ROTATE, 0);
+	SET(HEAD_X_TILT, 0);
+	SET(HEAD_Z_TILT, 0);
+	SET(LEFT_SHOULDER_X_ROTATE, 0);
+	SET(LEFT_SHOULDER_Y_ROTATE, 0);
+	SET(LEFT_SHOULDER_Z_ROTATE, 10);
+	SET(LEFT_UPPER_ARM_Y_ROTATE, 0);
+	SET(LEFT_LOWER_ARM_X_ROTATE, 45);
+	SET(LEFT_LOWER_ARM_Y_ROTATE, 0);
+	SET(WRIST_X_ROTATE, 0);
+	SET(WRIST_Y_ROTATE, 0);
+	SET(WRIST_Z_ROTATE, 0);
+	SET(THUMB_PROXIMAL_ROTATE, 10);
+	SET(THUMB_MIDDLE_ROTATE, 10);
+	SET(THUMB_DISTAL_ROTATE, 10);
+	SET(INDEX_PROXIMAL_ROTATE, 10);
+	SET(INDEX_MIDDLE_ROTATE, 10);
+	SET(INDEX_DISTAL_ROTATE, 10);
+	SET(MIDDLE_PROXIMAL_ROTATE, 10);
+	SET(MIDDLE_MIDDLE_ROTATE, 10);
+	SET(MIDDLE_DISTAL_ROTATE, 10);
+	SET(RING_PROXIMAL_ROTATE, 10);
+	SET(RING_MIDDLE_ROTATE, 10);
+	SET(RING_DISTAL_ROTATE, 10);
+	SET(PINKY_PROXIMAL_ROTATE, 10);
+	SET(PINKY_MIDDLE_ROTATE, 10);
+	SET(PINKY_DISTAL_ROTATE, 10);
+	SET(RIGHT_SHOULDER_X_ROTATE, 0);
+	SET(RIGHT_SHOULDER_Y_ROTATE, 0);
+	SET(RIGHT_SHOULDER_Z_ROTATE, 10);
+	SET(RIGHT_UPPER_ARM_Y_ROTATE, 0);
+	SET(GUN_X_ROTATE, 30);
+	SET(GUN_Y_ROTATE, 0);
+	SET(GUN_Z_ROTATE, 0);
+	SET(LEFT_UPPER_LEG_X_ROTATE, 30);
+	SET(LEFT_UPPER_LEG_Y_ROTATE, 15);
+	SET(LEFT_MIDDLE_LEG_X_ROTATE, 60);
+	SET(LEFT_LOWER_LEG_X_ROTATE, 40);
+	SET(LEFT_FOOT_X_ROTATE, 10);
+	SET(RIGHT_UPPER_LEG_X_ROTATE, 30);
+	SET(RIGHT_UPPER_LEG_Y_ROTATE, 15);
+	SET(RIGHT_MIDDLE_LEG_X_ROTATE, 60);
+	SET(RIGHT_LOWER_LEG_X_ROTATE, 40);
+	SET(RIGHT_FOOT_X_ROTATE, 10);
+}
+
 int main()
 {
 	// Initialize the controls
@@ -1405,10 +1554,16 @@ int main()
 	// stepsize, defaultvalue)
 	ModelerControl controls[NUMCONTROLS];
 	controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
-	controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
+	controls[YPOS] = ModelerControl("Y Position", -5, 5, 0.1f, 0);
 	controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
-	controls[UPPER_BODY_ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
+	controls[XROTATE] = ModelerControl("X Rotate", -180, 180, 1, 0);
+	controls[YROTATE] = ModelerControl("Y Rotate", -180, 180, 1, 0);
+	controls[ZROTATE] = ModelerControl("Z Rotate", -180, 180, 1, 0);
+	controls[UPPER_BODY_ROTATE] = ModelerControl("Upper Body Rotate", -135, 135, 1, 0);
+	controls[LOWER_BODY_ROTATE] = ModelerControl("Lower Body Rotate", -135, 135, 1, 0);
 	controls[HEAD_ROTATE] = ModelerControl("Head Rotate", -90, 90, 1, 0);
+	controls[HEAD_X_TILT] = ModelerControl("Head X Tilt", -45, 45, 1, 0);
+	controls[HEAD_Z_TILT] = ModelerControl("Head Z Tilt", -30, 30, 1, 0);
 	controls[LEFT_SHOULDER_X_ROTATE] = ModelerControl("Left Shoulder X Rotate", -70, 150, 1, 0);
 	controls[LEFT_SHOULDER_Y_ROTATE] = ModelerControl("Left Shoulder Y Rotate", -30, 30, 1, 0);
 	controls[LEFT_SHOULDER_Z_ROTATE] = ModelerControl("Left Shoulder Z Rotate", 0, 30, 1, 10);
@@ -1440,18 +1595,19 @@ int main()
 	controls[GUN_X_ROTATE] = ModelerControl("Gun X Rotate", -15, 45, 1, 30);
 	controls[GUN_Y_ROTATE] = ModelerControl("Gun Y Rotate", -30, 30, 1, 0);
 	controls[GUN_Z_ROTATE] = ModelerControl("Gun Z Rotate", -45, 45, 1, 0);
-	controls[LEFT_UPPER_LEG_X_ROTATE] = ModelerControl("Left Upper Leg X Rotate", 0, 45, 1, 30);
+	controls[LEFT_UPPER_LEG_X_ROTATE] = ModelerControl("Left Upper Leg X Rotate", 0, 90, 1, 30);
 	controls[LEFT_UPPER_LEG_Y_ROTATE] = ModelerControl("Left Upper Leg Y Rotate", -20, 20, 1, 15);
 	controls[LEFT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Left Middle Leg X Rotate", 0, 90, 1, 60);
 	controls[LEFT_LOWER_LEG_X_ROTATE] = ModelerControl("Left Lower Leg X Rotate", 0, 60, 1, 40);
 	controls[LEFT_FOOT_X_ROTATE] = ModelerControl("Left Foot X Rotate", -30, 30, 1, 10);
-	controls[RIGHT_UPPER_LEG_X_ROTATE] = ModelerControl("Right Upper Leg X Rotate", 0, 45, 1, 30);
+	controls[RIGHT_UPPER_LEG_X_ROTATE] = ModelerControl("Right Upper Leg X Rotate", 0, 90, 1, 30);
 	controls[RIGHT_UPPER_LEG_Y_ROTATE] = ModelerControl("Right Upper Leg Y Rotate", -20, 20, 1, 15);
 	controls[RIGHT_MIDDLE_LEG_X_ROTATE] = ModelerControl("Right Middle Leg X Rotate", 0, 90, 1, 60);
 	controls[RIGHT_LOWER_LEG_X_ROTATE] = ModelerControl("Right Lower Leg X Rotate", 0, 60, 1, 40);
 	controls[RIGHT_FOOT_X_ROTATE] = ModelerControl("Right Foot X Rotate", -30, 30, 1, 10);
 	controls[DETAILS] = ModelerControl("Level of Details", 1, 5, 1, 5);
 	controls[LIGHT_TEST] = ModelerControl("Light Test", -25, 25, 1, -2);
+	controls[MOOD] = ModelerControl("Mood", 0, 4, 1, 0);
 	controls[ANIMATE] = ModelerControl("Enable animation", 0, 1, 1, 0);
 
 	ModelerApplication::Instance()->Init(&createBastionModel, controls, NUMCONTROLS);
