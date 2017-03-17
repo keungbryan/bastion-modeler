@@ -255,11 +255,15 @@ void BastionModel::draw()
 
 					// draw left lower arm
 					glPushMatrix();
-					glTranslated(0, -1.5, 0);
 
-					glTranslated(0.25, 0, 0.25);
-					glRotated(llowerarmx, -1.0, 0, 0);
+					glTranslated(0.25, -1.5, 0.25);
 					glRotated(llowerarmy, 0, 1.0, 0);
+					glTranslated(-0.275, 0, 0);
+					glRotated(90, 0, 1.0, 0);
+					drawCylinder(.55, .275, .275);
+					glRotated(-90, 0, 1.0, 0);
+					glTranslated(0.275, 0, 0);
+					glRotated(llowerarmx, -1.0, 0, 0);
 					glTranslated(-0.25, 0, -0.25);
 
 					glScaled(0.5, -1.5, 0.5);
@@ -274,9 +278,11 @@ void BastionModel::draw()
 						glPushMatrix();
 						glTranslated(0.125, -1.6, 0);
 
-						glTranslated(0.125, 0, 0);
-						glRotated(VAL(LEFT_WRIST_Z_ROTATE), 0, 0, 1.0);
-						glTranslated(-0.125, 0, 0);
+						glTranslated(0.125, 0, 0.25);
+						glRotated(VAL(WRIST_X_ROTATE), 1.0, 0, 0);
+						glRotated(VAL(WRIST_Y_ROTATE), 0, 1.0, 0);
+						glRotated(VAL(WRIST_Z_ROTATE), 0, 0, 1.0);
+						glTranslated(-0.125, 0, -0.25);
 
 						drawBox(0.25, -0.5, 0.5);
 							// draw thumb
@@ -1143,10 +1149,12 @@ int main()
 	controls[LEFT_SHOULDER_X_ROTATE] = ModelerControl("Left Shoulder X Rotate", -70, 150, 1, 0);
 	controls[LEFT_SHOULDER_Y_ROTATE] = ModelerControl("Left Shoulder Y Rotate", -30, 30, 1, 0);
 	controls[LEFT_SHOULDER_Z_ROTATE] = ModelerControl("Left Shoulder Z Rotate", 0, 30, 1, 10);
-	controls[LEFT_UPPER_ARM_Y_ROTATE] = ModelerControl("Left Upper Arm Y Rotate", -30, 90, 1, 0);
+	controls[LEFT_UPPER_ARM_Y_ROTATE] = ModelerControl("Left Upper Arm Y Rotate", -30, 30, 1, 0);
 	controls[LEFT_LOWER_ARM_X_ROTATE] = ModelerControl("Left Lower Arm X Rotate", 0, 150, 1, 45);
-	controls[LEFT_LOWER_ARM_Y_ROTATE] = ModelerControl("Left Lower Arm Y Rotate", -90, 90, 1, 0);
-	controls[LEFT_WRIST_Z_ROTATE] = ModelerControl("Left Wrist Z Rotate", -90, 90, 1, 0);
+	controls[LEFT_LOWER_ARM_Y_ROTATE] = ModelerControl("Left Lower Arm Y Rotate", -30, 30, 1, 0);
+	controls[WRIST_X_ROTATE] = ModelerControl("Wrist X Rotate", -30, 30, 1, 0);
+	controls[WRIST_Y_ROTATE] = ModelerControl("Wrist Y Rotate", -90, 90, 1, 0);
+	controls[WRIST_Z_ROTATE] = ModelerControl("Wrist Z Rotate", -90, 90, 1, 0);
 	controls[THUMB_PROXIMAL_ROTATE] = ModelerControl("Thumb Proximal Phalanx Rotate", 0, 80, 1, 10);
 	controls[THUMB_MIDDLE_ROTATE] = ModelerControl("Thumb Middle Phalanx Rotate", 0, 90, 1, 10);
 	controls[THUMB_DISTAL_ROTATE] = ModelerControl("Thumb Distal Phalanx Rotate", 0, 90, 1, 10);
@@ -1165,7 +1173,7 @@ int main()
 	controls[RIGHT_SHOULDER_X_ROTATE] = ModelerControl("Right Shoulder X Rotate", -70, 150, 1, 0);
 	controls[RIGHT_SHOULDER_Y_ROTATE] = ModelerControl("Right Shoulder Y Rotate", -30, 30, 1, 0);
 	controls[RIGHT_SHOULDER_Z_ROTATE] = ModelerControl("Right Shoulder Z Rotate", 0, 30, 1, 10);
-	controls[RIGHT_UPPER_ARM_Y_ROTATE] = ModelerControl("Right Upper Arm Y Rotate", -30, 90, 1, 0);
+	controls[RIGHT_UPPER_ARM_Y_ROTATE] = ModelerControl("Right Upper Arm Y Rotate", -30, 30, 1, 0);
 	controls[GUN_X_ROTATE] = ModelerControl("Gun X Rotate", -15, 45, 1, 30);
 	controls[GUN_Y_ROTATE] = ModelerControl("Gun Y Rotate", -30, 30, 1, 0);
 	controls[GUN_Z_ROTATE] = ModelerControl("Gun Z Rotate", -45, 45, 1, 0);
